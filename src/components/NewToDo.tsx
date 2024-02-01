@@ -7,13 +7,6 @@ export default function NewToDo() {
   const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    console.log(supabase)
-
-    // // if (!supabase.auth.getSession()) {
-    // //   console.warn('USER IS NOT AUTHENTICATED');
-    // //   return;
-    // // }
-
     const user = await supabase.auth.getUser();
     console.log('user');
     console.log(user.data.user.id);
@@ -25,7 +18,7 @@ export default function NewToDo() {
 
     const { error } = await supabase
       .from('todos')
-      .insert({ user_id: user.data.user.id, task: newToDo });
+      .insert({ user_id: user.data.user.id, title: newToDo });
 
     if (error) {
       console.warn(error)

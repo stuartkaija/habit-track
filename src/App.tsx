@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
+// import Nav from './components/Nav';
 import Auth from './Auth'
 import AuthenticatedApp from './AuthenticatedApp';
 import './App.css'
@@ -18,12 +19,9 @@ function App() {
   }, [])
 
   return (
-    <>
-      <h1 className='font-extrabold text-blue-700'>Welcome to my application</h1>
-      <div className='container'>
-        {!session ? <Auth/> : <AuthenticatedApp/>}
-      </div>
-    </>
+    <div>
+      {!session ? <Auth /> : <AuthenticatedApp />}
+    </div>
   )
 }
 
