@@ -4,7 +4,6 @@ export default function HabitsDisplay({ habits }: any) {
   return (
     <ol>
       {habits.map((habit: any) => {
-        console.log(habit)
         return (
           <li key={habit.id}>
             <Habit

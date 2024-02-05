@@ -6,9 +6,6 @@ const SessionContext = createContext(null);
 const SessionProvider = (props: any) => {
   const [session, setSession] = useState(null);
 
-  console.log('SESSION PROVIDER!')
-  console.log(session)
-
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);

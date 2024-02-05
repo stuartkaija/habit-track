@@ -26,7 +26,7 @@ export default function AuthenticatedApp() {
   }, [])
 
   // real time updates
-  const handleUpdates = (payload: any) => {
+  const handleHabitUpdates = (payload: any) => {
     console.log('Change received!', payload);
     const event = payload.eventType;
     if (event === "INSERT") {
@@ -52,7 +52,7 @@ export default function AuthenticatedApp() {
   useEffect(() => {
     const habitsListener = supabase
       .channel('habits')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'habits' }, handleUpdates)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'habits' }, handleHabitUpdates)
       .subscribe();
 
     return () => {
