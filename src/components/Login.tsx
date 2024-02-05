@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { supabase } from "./supabaseClient";
+import { supabase } from "../supabaseClient";
 
-export default function Auth() {
+export default function Login() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
 
@@ -20,14 +20,14 @@ export default function Auth() {
   }
 
   return (
-    <div className="row flex flex-center">
-    <div className="col-6 form-widget">
-      <h1 className="header">Supabase + React</h1>
-      <p className="description">Sign in via magic link with your email below</p>
-      <form className="form-widget" onSubmit={handleLogin}>
+    <div className="flex flex-center items-center justify-center h-full">
+    <div className="bg-teal-100 p-2 rounded-md">
+      <h1 className="">Login</h1>
+      <p className="">Sign in via magic link with your email below</p>
+      <form className="" onSubmit={handleLogin}>
         <div>
           <input
-            className="inputField"
+            className=""
             type="email"
             placeholder="Your email"
             value={email}
@@ -36,7 +36,7 @@ export default function Auth() {
           />
         </div>
         <div>
-          <button className={'button block'} disabled={loading}>
+          <button className='' disabled={loading}>
             {loading ? <span>Loading</span> : <span>Send magic link</span>}
           </button>
         </div>

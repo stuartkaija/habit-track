@@ -1,39 +1,46 @@
 import { useState, useEffect } from "react"
 import { supabase } from "./supabaseClient";
+import { useSession } from "./lib/SessionProvider";
 import Nav from "./components/Nav";
-import NewToDo from "./components/NewToDo"
+import AddHabit from "./components/AddHabit";
+import HabitsDisplay from "./components/HabitsDisplay";
 
 export default function AuthenticatedApp() {
-  const [toDos, setToDos] = useState<any[]>([]);
+  const { user } = useSession();
+  const [habits, setHabits] = useState<any[]>([]);
 
-  const loadData = async () => {
-    const { data, error } = await supabase.from('todos').select();
+  const loadHabits = async () => {
+    const { data, error } = await supabase
+      .from('habits')
+      .select('id, title, created_at')
+      .eq('user_id', user.id)
     if (error) {
-      console.warn(error)
+      console.warn(error);
     } else {
-      setToDos(data);
+      setHabits(data);
     }
   }
 
   useEffect(() => {
-    loadData();
+    loadHabits();
   }, [])
 
-  const handleInserts = (payload: any) => {
+  // real time updates
+  const handleUpdates = (payload: any) => {
     console.log('Change received!', payload);
     const event = payload.eventType;
     if (event === "INSERT") {
-      const newToDo = payload.new;
-      setToDos((prev) => {
-        const newToDos = [...prev, newToDo];
-        return newToDos;
+      const newHabit = payload.new;
+      setHabits((prev) => {
+        const newHabits = [...prev, newHabit];
+        return newHabits;
       })
     }
     if (event === "DELETE") {
-      const eventToDelete = payload.old;
-      console.log(eventToDelete)
-      setToDos((prev) => {
-        const filtered = prev.filter((todo) => todo.id !== eventToDelete.id)
+      const habitToDelete = payload.old;
+      console.log(habitToDelete)
+      setHabits((prev) => {
+        const filtered = prev.filter((habit) => habit.id !== habitToDelete.id)
         return filtered;
       })
     }
@@ -43,57 +50,25 @@ export default function AuthenticatedApp() {
   }
 
   useEffect(() => {
-    const todoListener = supabase
-      .channel('todos')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'todos' }, handleInserts)
+    const habitsListener = supabase
+      .channel('habits')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'habits' }, handleUpdates)
       .subscribe();
 
     return () => {
-      todoListener.unsubscribe();
+      habitsListener.unsubscribe();
     }
   }, [])
-
-
 
   return (
     <div>
       <Nav />
-      <NewToDo />
-      <h3>To Dos</h3>
-      {toDos && toDos.map((el, idx) => {
-        return (
-          <ToDo
-            key={idx}
-            todo={el}
-          />
-        )
-      })}
-    </div>
-  )
-}
-
-const ToDo = ({ todo }) => {
-
-  const handleDelete = async () => {
-    const { data, error } = await supabase
-      .from('todos')
-      .delete()
-      .eq('id', todo.id)
-
-    if (error) {
-      console.warn(error)
-    }
-
-    if (data) {
-      console.log(data);
-    }
-  }
-
-  return (
-    <div className="flex">
-      <input type="checkbox" checked={todo.is_complete} />
-      <p className="px-2">{todo.title}</p>
-      <button onClick={handleDelete} className="my-2 bg-red-400 rounded px-4">Delete</button>
+      <div className="p-2">
+        <AddHabit />
+        <HabitsDisplay
+          habits={habits}
+        />
+      </div>
     </div>
   )
 }
