@@ -12,7 +12,7 @@ export default function AuthenticatedApp() {
   const loadHabits = async () => {
     const { data, error } = await supabase
       .from('habits')
-      .select('id, title, created_at')
+      .select('id, title, created_at, completion_data')
       .eq('user_id', user.id)
     if (error) {
       console.warn(error);

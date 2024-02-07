@@ -1,37 +1,42 @@
 import React, { useState } from 'react';
 import { useSession } from '../lib/SessionProvider';
 import { supabase } from '../supabaseClient';
+import HabitGenerator from '../classes/HabitGenerator';
+
+const generator = new HabitGenerator();
 
 export default function AddHabit() {
   const [newHabit, setNewHabit] = useState<string>('');
   const { user } = useSession();
 
-  const handleAddHabit = async (event: React.SyntheticEvent) => {
+  const handleAddNewHabit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-
+    // generate habit data
+    const newHabitData = generator.generateHabitData();
     const { error } = await supabase
       .from('habits')
-      .insert({ user_id: user?.id, title: newHabit });
+      .insert({ user_id: user?.id, title: newHabit, completion_data: newHabitData});
     
     if (error) {
       console.warn(error)
-    } else {
-      console.log('successfully inserted new habit');
-      setNewHabit('');
+      return;
     }
+    console.log('successfully inserted new habit')
+    setNewHabit('');
   }
 
   return (
     <div>
       <h2>Add Habit</h2>
-      <form onSubmit={handleAddHabit}>
-        <input
+      <form className='m-2' onSubmit={handleAddNewHabit}>
+        <input 
+          className='border-blue-600 border-2 rounded-md p-2 px-6 mr-2' 
           type="text"
-          placeholder='e.g. excercise'
           value={newHabit}
+          placeholder='e.g. gym'
           onChange={(event) => setNewHabit(event.target.value)}
         />
-        <button className='px-4 rounded bg-indigo-200 hover:bg-indigo-300'>Add Habit</button>
+        <button className='p-2 px-6 bg-yellow-400 rounded-md'>generate habit</button>
       </form>
     </div>
   )
