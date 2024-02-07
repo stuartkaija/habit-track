@@ -1,14 +1,13 @@
-import { format, set, getDay, getWeek, getYear, getDaysInYear } from 'date-fns'
+import { format, set, getDay, getWeek, getYear, getDaysInYear, getWeekOfMonth, getMonth } from 'date-fns'
 
 class HabitGenerator {
-  generateHabitData(): HabitData[] {
-    const habitData: HabitData[] = [];
+  generateHabitData(): HabitData[][] {
+    const habitData: HabitData[][] = [];
+    let currentWeek: HabitData[] = [];
+
     const currentDate = new Date();
     const currentYear = getYear(currentDate);
-    // console.log(currentYear);
-    // console.log(typeof currentYear)
-    const daysInYear = getDaysInYear(currentYear);
-    // console.log(daysInYear);
+    const daysInYear = getDaysInYear(currentDate);
 
     for (let day = 1; day <= daysInYear; day++) {
       const date = new Date(currentYear, 0, day)
@@ -16,9 +15,32 @@ class HabitGenerator {
         date,
         habitComplete: false,
         dayOfWeek: getDay(date),
-        weekOfYear: getWeek(date)
+        weekOfMonth: getWeekOfMonth(date),
+        weekOfYear: getWeek(date, { weekStartsOn: 0 }),
+        month: getMonth(date)
       }
-      habitData.push(habitDatum);
+      currentWeek.push(habitDatum);
+
+      if (habitDatum.dayOfWeek === 6 || day === daysInYear) {
+        habitData.push(currentWeek);
+        currentWeek = [];
+      }
+    }
+
+    const firstWeekLength = habitData[0].length;
+    if (firstWeekLength < 7) {
+      const missingDays = 7 - firstWeekLength;
+      for (let i = 0; i < missingDays; i++) {
+        habitData[0].unshift({ date: null, habitComplete: false, dayOfWeek: i, weekOfMonth: null, weekOfYear: 1, month: null })
+      }
+    }
+
+    const lastWeekLength = habitData[habitData.length - 1].length;
+    if (lastWeekLength < 7) {
+      const missingDays = 7 - lastWeekLength;
+      for (let i = 0; i < missingDays; i++) {
+        habitData[habitData.length - 1].push({ date: null, habitComplete: false, dayOfWeek: i + lastWeekLength, weekOfMonth: null, weekOfYear: habitData.length, month: null })
+      }
     }
 
     return habitData;
@@ -26,10 +48,12 @@ class HabitGenerator {
 }
 
 interface HabitData {
-  date: Date;
+  date: Date | null;
   habitComplete: boolean;
   dayOfWeek: number;
+  weekOfMonth: number | null;
   weekOfYear: number;
+  month: number | null;
 }
 
 export default HabitGenerator;

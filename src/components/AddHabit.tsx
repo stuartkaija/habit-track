@@ -30,7 +30,7 @@ export default function AddHabit() {
       <h2>Add Habit</h2>
       <form className='m-2' onSubmit={handleAddNewHabit}>
         <input 
-          className='border-blue-600 border-2 rounded-md p-2 px-6 mr-2' 
+          className='border-yellow-200 border-2 rounded-md p-2 px-6 mr-2' 
           type="text"
           value={newHabit}
           placeholder='e.g. gym'
