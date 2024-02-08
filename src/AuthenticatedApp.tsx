@@ -64,10 +64,10 @@ export default function AuthenticatedApp() {
     <div>
       <Nav />
       <div className="p-2">
-        <AddHabit />
         <HabitsDisplay
           habits={habits}
         />
+        <AddHabit />
       </div>
     </div>
   )

@@ -22,7 +22,7 @@ export default function Login() {
   return (
     <div className="flex flex-center items-center justify-center h-full">
     <div className="bg-teal-100 p-2 rounded-md">
-      <h1 className="">Login</h1>
+      <p className="">Login</p>
       <p className="">Sign in via magic link with your email below</p>
       <form className="" onSubmit={handleLogin}>
         <div>

@@ -1,4 +1,4 @@
-import { format, getDay, getDaysInYear, getYear, getISODay, getWeek, getISOWeek } from 'date-fns';
+import { isSameDay } from 'date-fns';
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import Day from './Day';
@@ -37,14 +37,14 @@ export default function Habit({ id, title, createdAt, completionData }: any) {
     console.log(day)
     console.log('update status')
     console.log(updatedStatus)
-    
-    
+
+
     setCopyCompletionData((prevData: any) => {
-      const updatedData = [ ...prevData ];
+      const updatedData = [...prevData];
 
       // bug in the last week of the year, where those habitDatums actually have a week of year value of 1
       updatedData[week - 1][day].habitComplete = updatedStatus;
-      
+
       console.log(updatedData[week][day].habitComplete)
       return updatedData;
     });
@@ -64,41 +64,38 @@ export default function Habit({ id, title, createdAt, completionData }: any) {
   return (
     <div>
       <div className='flex'>
-        <p className='m-2'>{title}</p>
+        <h2 className='text-lg md:text-2xl font-semibold m-2'>{title}</h2>
         <button onClick={handleDeleteHabit} className='m-2 px-4 rounded bg-red-200 hover:bg-red-300'>Delete Habit</button>
       </div>
       <div className='flex'>
-        <div className='w-1/12 grid grid-rows-7 justify-items-end pr-2'>
+        <div className='w-1/12 grid grid-rows-7 justify-items-end mr-2'>
           <p className='row-start-2 text-xs'>Mon</p>
           <p className='row-start-4 text-xs'>Wed</p>
           <p className='row-start-6 text-xs'>Fri</p>
         </div>
 
-        <div className='grid grid-cols-53 w-11/12'>
-          {copyCompletionData.map((week: [], index: number) => {
-
-            return (
-              <div key={index} className='items-center grid grid-rows-7'>
-                {week.map(({ date, habitComplete, dayOfWeek, weekOfMonth, weekOfYear, month }: any, cellIndex) => {
-                  // console.log(date)
-                  // console.log(dayOfWeek)
-                  // console.log(weekOfMonth)
-                  // console.log(weekOfYear)
-                  // console.log(month)
-                  return (
-                    <Day
-                      key={cellIndex}
-                      date={date}
-                      day={dayOfWeek}
-                      week={weekOfYear}
-                      completionStatus={habitComplete}
-                      onUpdate={handleUpdateCompletionData}
-                    />
-                  )
-                })}
-              </div>
-            )
-          })}
+        <div className='overflow-x-auto'>
+          <div className='grid grid-cols-53 gap-1 w-max p-3'>
+            {copyCompletionData.map((week: [], index: number) => {
+              return (
+                <div key={index} className='items-center grid grid-rows-7 gap-1'>
+                  {week.map(({ date, habitComplete, dayOfWeek, weekOfMonth, weekOfYear, month }: any, cellIndex) => {
+                    return (
+                      <Day
+                        key={cellIndex}
+                        createdToday={isSameDay(createdAt, date)}
+                        date={date}
+                        day={dayOfWeek}
+                        week={weekOfYear}
+                        completionStatus={habitComplete}
+                        onUpdate={handleUpdateCompletionData}
+                      />
+                    )
+                  })}
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     </div>
