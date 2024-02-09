@@ -1,20 +1,35 @@
-import { useSession } from './lib/SessionProvider';
-import Login from './components/Login'
-import AuthenticatedApp from './AuthenticatedApp';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { AuthProvider, useAuth } from './lib/AuthProvider';
+import Root from './routes/Root';
+import About from './routes/About';
+import Demo from './routes/Demo';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Root />,
+    children: [
+    ]
+  },
+  {
+    path: 'about',
+    element: <About />
+  },
+  {
+    path: 'demo',
+    element: <Demo />
+  },
+])
 
 function App() {
-  const session = useSession();
-  // console.log('APP!')
-  // console.log(session);
+  const session = useAuth();
+  console.log('APP!')
+  console.log(session);
 
   return (
-    <div className='bg-white h-dvh'>
-      {!session ?
-        <Login />
-        :
-        <AuthenticatedApp />
-      }
-    </div>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   )
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSession } from '../lib/SessionProvider';
+import { useAuth } from '../lib/AuthProvider';
 import { supabase } from '../supabaseClient';
 import HabitGenerator from '../classes/HabitGenerator';
 
@@ -7,7 +7,7 @@ const generator = new HabitGenerator();
 
 export default function AddHabit() {
   const [newHabit, setNewHabit] = useState<string>('');
-  const { user } = useSession();
+  const { user } = useAuth();
 
   const handleAddNewHabit = async (event: React.SyntheticEvent) => {
     event.preventDefault();

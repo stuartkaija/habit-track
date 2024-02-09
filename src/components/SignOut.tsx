@@ -18,10 +18,10 @@ export default function SignOut() {
   }
   return (
     <button
-      className="bg-blue-500 hover:bg-blue-600 px-4 rounded text-white"
+      className="bg-blue-500 hover:bg-blue-600 px-4 rounded text-white font-semibold"
       onClick={handleLogout}
     >
-      log out
+      Sign Out
     </button>
   )
 }

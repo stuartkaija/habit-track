@@ -6,9 +6,8 @@ import Day from './Day';
 export default function Habit({ id, title, createdAt, completionData }: any) {
   const [copyCompletionData, setCopyCompletionData] = useState(completionData);
 
-  console.log('copyCompletionData')
-  console.log(copyCompletionData)
-
+  // console.log('copyCompletionData')
+  // console.log(copyCompletionData)
 
   // delete habit
   const handleDeleteHabit = async () => {

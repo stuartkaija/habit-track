@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react"
 import { supabase } from "./supabaseClient";
-import { useSession } from "./lib/SessionProvider";
+import { useAuth } from "./lib/AuthProvider";
 import Nav from "./components/Nav";
 import AddHabit from "./components/AddHabit";
 import HabitsDisplay from "./components/HabitsDisplay";
 
 export default function AuthenticatedApp() {
-  const { user } = useSession();
+  const { user } = useAuth();
   const [habits, setHabits] = useState<any[]>([]);
-
+  console.log(user)
   const loadHabits = async () => {
     const { data, error } = await supabase
       .from('habits')
