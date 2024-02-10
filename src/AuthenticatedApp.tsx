@@ -8,7 +8,7 @@ import HabitsDisplay from "./components/HabitsDisplay";
 export default function AuthenticatedApp() {
   const { user } = useAuth();
   const [habits, setHabits] = useState<any[]>([]);
-  console.log(user)
+
   const loadHabits = async () => {
     const { data, error } = await supabase
       .from('habits')
@@ -25,9 +25,8 @@ export default function AuthenticatedApp() {
     loadHabits();
   }, [])
 
-  // real time updates
+  // function to handle real time updates
   const handleHabitUpdates = (payload: any) => {
-    console.log('Change received!', payload);
     const event = payload.eventType;
     if (event === "INSERT") {
       const newHabit = payload.new;
@@ -38,14 +37,17 @@ export default function AuthenticatedApp() {
     }
     if (event === "DELETE") {
       const habitToDelete = payload.old;
-      console.log(habitToDelete)
       setHabits((prev) => {
         const filtered = prev.filter((habit) => habit.id !== habitToDelete.id)
         return filtered;
       })
     }
-    if (event === "UPSERT") {
-      console.log('upserting buzzlebup')
+    if (event === "UPDATE") {
+      const habitToUpdate = payload.old;
+      const updatedHabit = payload.new;
+      setHabits((prev) => {
+        return prev.map(habit => (habit.id === habitToUpdate.id ? updatedHabit : habit));
+      })
     }
   }
 
@@ -66,6 +68,7 @@ export default function AuthenticatedApp() {
       <div className="p-2">
         <HabitsDisplay
           habits={habits}
+          setHabits={setHabits}
         />
         <AddHabit />
       </div>

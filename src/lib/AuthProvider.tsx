@@ -1,7 +1,6 @@
-import { ReactNode } from "react";
-import { createContext, useState, useEffect, useContext } from "react";
-import { supabase } from "../supabaseClient";
+import { createContext, useState, useEffect, useContext, ReactNode } from "react";
 import { Session } from "@supabase/supabase-js";
+import { supabase } from "../supabaseClient";
 
 const AuthContext = createContext<Session | null>(null);
 
@@ -17,9 +16,6 @@ const AuthProvider = ({ children }: { children: ReactNode}) => {
       setSession(session)
     })
   }, [])
-
-  console.log('AuthProvider')
-  console.log(session);
 
   return (
     <AuthContext.Provider value={session}>

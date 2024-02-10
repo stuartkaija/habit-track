@@ -1,13 +1,15 @@
+import { useMemo } from 'react';
 import { isSameDay } from 'date-fns';
-import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+import { useAuth } from '../lib/AuthProvider';
 import Day from './Day';
 
 export default function Habit({ id, title, createdAt, completionData }: any) {
-  const [copyCompletionData, setCopyCompletionData] = useState(completionData);
+  const { user } = useAuth();
 
-  // console.log('copyCompletionData')
-  // console.log(copyCompletionData)
+  const memoizedCompletionData = useMemo(() => {
+    return completionData
+  }, [completionData])
 
   // delete habit
   const handleDeleteHabit = async () => {
@@ -26,39 +28,21 @@ export default function Habit({ id, title, createdAt, completionData }: any) {
   }
 
   // function to update completion data, passed to each Day component
-  const handleUpdateCompletionData = async (updateDate: any, day: number, week: number, updatedStatus: boolean) => {
-    // use the week to find the correct week in which to update the data, should be able to use it as an index in the copy of completion data
-    console.log('UPDATER FUNCTION FIRING')
-    console.log(updateDate)
-    console.log('week in which that date is found')
-    console.log(week)
-    console.log('day of week')
-    console.log(day)
-    console.log('update status')
-    console.log(updatedStatus)
+  const handleUpdateHabit = async (day: number, week: number, updatedStatus: boolean) => {
+    // use the week to find the correct week/index for which to update the data
 
+    // make a copy of memoized data to update
+    const updatedData = [...memoizedCompletionData];
+    updatedData[week - 1][day].habitComplete = updatedStatus;
 
-    setCopyCompletionData((prevData: any) => {
-      const updatedData = [...prevData];
+    const { error } = await supabase
+      .from('habits')
+      .upsert({ id: id, user_id: user?.id, completion_data: updatedData })
 
-      // bug in the last week of the year, where those habitDatums actually have a week of year value of 1
-      updatedData[week - 1][day].habitComplete = updatedStatus;
-
-      console.log(updatedData[week][day].habitComplete)
-      return updatedData;
-    });
+    if (error) {
+      console.warn(error);
+    }
   }
-
-  // update completion data table
-  // const updateCompletionData = async () => {
-  //   await supabase
-  //     .from('completion_data')
-  //     .upsert([{ id, completion_data: completionData }])
-  // }
-
-  // useEffect(() => {
-  //   updateCompletionData();
-  // }, [completionData])
 
   return (
     <div>
@@ -74,11 +58,11 @@ export default function Habit({ id, title, createdAt, completionData }: any) {
         </div>
 
         <div className='overflow-x-auto'>
-          <div className='grid grid-cols-53 gap-1 w-max p-3'>
-            {copyCompletionData.map((week: [], index: number) => {
+          <div className='grid grid-cols-53 gap-1 w-max'>
+            {memoizedCompletionData.map((week: [], index: number) => {
               return (
                 <div key={index} className='items-center grid grid-rows-7 gap-1'>
-                  {week.map(({ date, habitComplete, dayOfWeek, weekOfMonth, weekOfYear, month }: any, cellIndex) => {
+                  {week.map(({ date, habitComplete, dayOfWeek, weekOfYear }: any, cellIndex) => {
                     return (
                       <Day
                         key={cellIndex}
@@ -87,7 +71,7 @@ export default function Habit({ id, title, createdAt, completionData }: any) {
                         day={dayOfWeek}
                         week={weekOfYear}
                         completionStatus={habitComplete}
-                        onUpdate={handleUpdateCompletionData}
+                        handleUpdateHabit={handleUpdateHabit}
                       />
                     )
                   })}

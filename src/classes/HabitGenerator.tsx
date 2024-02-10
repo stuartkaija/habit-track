@@ -1,4 +1,4 @@
-import { format, set, getDay, getWeek, getYear, getDaysInYear, getWeekOfMonth, getMonth } from 'date-fns'
+import { getDay, getWeek, getYear, getDaysInYear, getWeekOfMonth, getMonth } from 'date-fns'
 
 class HabitGenerator {
   generateHabitData(): HabitData[][] {
@@ -27,6 +27,8 @@ class HabitGenerator {
       }
     }
 
+    // the following code modifies the first and last weeks to ensure that they have a length of 7
+    // this results in a square matrix which simplifies styling the grid i.e. every week can be mapped over and display horizontally, inside each week we can map again vertically
     const firstWeekLength = habitData[0].length;
     if (firstWeekLength < 7) {
       const missingDays = 7 - firstWeekLength;

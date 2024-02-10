@@ -1,6 +1,6 @@
 import Habit from "./Habit"
 
-export default function HabitsDisplay({ habits }: any) {
+export default function HabitsDisplay({ habits, setHabits }: any) {
   return (
     <ol>
       {habits.map((habit: any) => {
@@ -11,6 +11,7 @@ export default function HabitsDisplay({ habits }: any) {
               title={habit.title}
               completionData={habit.completion_data}
               createdAt={habit.created_at}
+              setHabits={setHabits}
             />
           </li>
         )
