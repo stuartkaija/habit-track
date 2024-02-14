@@ -1,14 +1,12 @@
 import Login from '../components/Login';
+import { NavLink } from 'react-router-dom';
 
 export default function Landing() {
   return (
-    <div className='flex flex-col lg:flex-row lg:justify-between'>
-      <div className='flex justify-center items-center bg-blue-800 lg:w-1/2 lg:h-dvh'>
-        <h1 className='text-white font-extrabold text-5xl'>Habit Track</h1>
-      </div>
-      <div className='flex justify-center items-center lg:w-1/2 md:h-dvh'>
-        <Login />
-      </div>
+    <div className='flex flex-col items-center h-full'>
+      <h1 className='text-indigo-600 font-extrabold text-5xl m-4 lg:m-12'>Habit Track</h1>
+      <Login />
+      <p className='mt-auto mb-4'>Demo the app first <NavLink to={'/demo'} className='italic hover:underline'>here</NavLink>.</p>
     </div>
   )
 }

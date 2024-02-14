@@ -3,7 +3,7 @@ import { format, isToday } from "date-fns"; // use this to check the created at,
 export default function Day({ date, createdToday, day, week, completionStatus, handleUpdateHabit }: any) {
 
   const handleMarkComplete = async () => {
-    handleUpdateHabit(date, day, week, !completionStatus);
+    handleUpdateHabit(day, week, !completionStatus);
   }
 
   if (!date) {
