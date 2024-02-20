@@ -27,7 +27,9 @@ export default function AuthenticatedApp() {
 
   // function to handle real time updates
   const handleHabitUpdates = (payload: any) => {
+    console.log('handling habit updates...')
     const event = payload.eventType;
+    console.log(event)
     if (event === "INSERT") {
       const newHabit = payload.new;
       setHabits((prev) => {
@@ -43,8 +45,11 @@ export default function AuthenticatedApp() {
       })
     }
     if (event === "UPDATE") {
+      console.log('UPDATING...')
       const habitToUpdate = payload.old;
+      console.log(habitToUpdate)
       const updatedHabit = payload.new;
+      console.log(updatedHabit)
       setHabits((prev) => {
         return prev.map(habit => (habit.id === habitToUpdate.id ? updatedHabit : habit));
       })

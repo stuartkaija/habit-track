@@ -2,8 +2,6 @@ import { format, isToday } from "date-fns"; // use this to check the created at,
 
 export default function Day({ date, createdToday, isWithinTimeframe, day, week, completionStatus, handleUpdateHabit }: any) {
 
-  console.log(isWithinTimeframe);
-
   const handleMarkComplete = async () => {
     handleUpdateHabit(day, week, !completionStatus);
   }

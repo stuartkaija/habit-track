@@ -2,36 +2,32 @@ import { useState } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { isBefore } from 'date-fns';
-import { useAuth } from '../lib/AuthProvider';
 import { supabase } from '../supabaseClient';
-import HabitGenerator from '../classes/HabitGenerator';
 
-const generator = new HabitGenerator;
-
-export default function AddHabitModal({
+export default function EditModal({
+  name,
+  startDate,
+  endDate,
   modalOpen,
   handleOpenModal,
+  habitId,
+  completionData,
 }: {
+  name: string
+  startDate: string
+  endDate: string
   modalOpen: boolean
   handleOpenModal: any
+  habitId: number,
+  completionData: any
 }) {
-  const [habitName, setHabitName] = useState<string>('');
-  const [startDate, setStartDate] = useState<string | null>(null);
-  const [endDate, setEndDate] = useState<string | null>(null);
+  const [habitName, setHabitName] = useState<string>(name);
+  const [newStartDate, setNewStartDate] = useState<string | null>(startDate);
+  const [newEndDate, setNewEndDate] = useState<string | null>(endDate);
   const [nameError, setNameError] = useState<boolean>(false);
   const [dateError, setDateError] = useState<boolean>(false);
 
-  const { user } = useAuth();
-
-  const resetAllState = () => {
-    setHabitName('');
-    setStartDate(null);
-    setEndDate(null);
-    setNameError(false);
-    setDateError(false);
-  }
-
-  const handleAddNewHabit = async (event: React.SyntheticEvent) => {
+  const handleEditHabit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
     // error handling
     if (!habitName.length || habitName.length > 100) {
@@ -44,42 +40,35 @@ export default function AddHabitModal({
       return;
     }
 
-    // generate habit data
-    const newHabitData = generator.generateHabitData();
-
     const { error } = await supabase
       .from('habits')
-      .insert({
-        user_id: user?.id,
+      .update({
         title: habitName,
-        start_date: startDate,
-        end_date: endDate,
-        completion_data: newHabitData
-      });
+        start_date: newStartDate,
+        end_date: newEndDate,
+        completion_data: completionData
+      })
+      .eq('id', habitId);
 
     if (error) {
-      console.warn(error)
-      return;
+      console.log(error);
     } else {
-      console.log('successfully inserted new habit')
+      console.log('successfully edited habit')
     }
-    resetAllState();
+
     handleOpenModal();
   }
 
   return (
     <Dialog
       open={modalOpen}
-      onClose={() => {
-        resetAllState();
-        handleOpenModal();
-      }}
+      onClose={handleOpenModal}
     >
-      <DialogTitle>Add Habit</DialogTitle>
+      <DialogTitle>Edit Habit</DialogTitle>
       <DialogContent>
-        <DialogContentText>Fill out the details for the habit you would like to track.</DialogContentText>
+        <DialogContentText>Edit the details of the habit you're tracking below.</DialogContentText>
       </DialogContent>
-      <form className='flex flex-col justify-around m-2 h-80' onSubmit={handleAddNewHabit}>
+      <form className='flex flex-col justify-around m-2 h-80' action="" onSubmit={handleEditHabit}>
         <TextField
           type='text'
           id='name'
@@ -95,31 +84,30 @@ export default function AddHabitModal({
         />
         <DatePicker
           label='Start Date'
-          value={startDate}
+          value={newStartDate}
           minDate='January 1, 2024'
           maxDate='December 31, 2024'
           onChange={(value) => {
             setDateError(false);
-            setStartDate(value);
+            setNewStartDate(value)
           }}
         />
         <DatePicker
           label='End Date'
-          value={endDate}
+          value={newEndDate}
           minDate='January 1, 2024'
           maxDate='December 31, 2024'
           onChange={(value) => {
             setDateError(false);
-            setEndDate(value);
+            setNewEndDate(value)
           }}
         />
         <p className={`${dateError ? 'visible' : 'invisible'} text-xs text-red-500`}>End Date must be after Start Date</p>
-        <DialogActions>
-          <button className='m-2 p-2 w-2/3 rounded bg-green-200 hover:bg-green-300' type='submit'>Add</button>
-          <button className='m-2 p-2 w-1/3 rounded bg-slate-200 hover:bg-slate-300' type='reset' onClick={handleOpenModal}>Cancel</button>
-        </DialogActions>
       </form>
+      <DialogActions>
+        <button className='m-2 p-2 w-2/3 rounded bg-yellow-200 hover:bg-yellow-300' onClick={handleEditHabit}>Edit</button>
+        <button className='m-2 p-2 w-1/3 rounded bg-slate-200 hover:bg-slate-300' onClick={handleOpenModal}>Cancel</button>
+      </DialogActions>
     </Dialog>
   )
 }
-
