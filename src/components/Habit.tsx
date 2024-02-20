@@ -5,9 +5,12 @@ import { useAuth } from '../lib/AuthProvider';
 import Day from './Day';
 import DeleteModal from './DeleteModal';
 
-export default function Habit({ id, title, createdAt, completionData }: any) {
+export default function Habit({ id, title, startDate, endDate, createdAt, completionData }: any) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { user } = useAuth();
+
+  console.log(startDate)
+  console.log(endDate)
 
   const memoizedCompletionData = useMemo(() => {
     return completionData
@@ -55,8 +58,8 @@ export default function Habit({ id, title, createdAt, completionData }: any) {
   }
 
   return (
-    <div className='flex flex-col lg:flex-row lg:justify-around m-2 rounded-lg'>
-      <div className='flex justify-between lg:flex-col lg:w-72'>
+    <div className='flex flex-col lg:flex-row lg:justify-around m-2 rounded-lg border border-blue-200'>
+      <div className='flex justify-between lg:flex-col lg:w-72 m-1 rounded-md border border-green-200 hover:border-green-400'>
         <h2 className='text-md sm:text-lg md:text-2xl font-semibold m-2'>{title}</h2>
         <div>
           <button onClick={handleEditHabit} className='m-2 px-4 max-w-32 rounded bg-purple-200 hover:bg-purple-300'>Edit</button>
@@ -69,24 +72,18 @@ export default function Habit({ id, title, createdAt, completionData }: any) {
         </div>
       </div>
 
-      <div>
+      <div className='m-1 p-1 rounded-md border border-yellow-200 hover:border-yellow-400'>
         <h3>Stats</h3>
         <ul>
           <li>stat 1</li>
-          <li>stat 2</li>
-          <li>stat 3</li>
         </ul>
       </div>
 
-      <div className='flex'>
+      <div className='m-1 rounded-md p-2 flex border border-pink-300 hover:border-pink-500'>
         <div className='md:w-1/12 grid grid-rows-7 justify-items-end mr-2'>
-          {/* <p className='row-start-1 text-xs'>Sun</p> */}
           <p className='row-start-2 text-xs'>Mon</p>
-          {/* <p className='row-start-3 text-xs'>Tue</p> */}
           <p className='row-start-4 text-xs'>Wed</p>
-          {/* <p className='row-start-5 text-xs'>Thu</p> */}
           <p className='row-start-6 text-xs'>Fri</p>
-          {/* <p className='row-start-7 text-xs'>Sat</p> */}
         </div>
 
         <div className='overflow-x-auto'>

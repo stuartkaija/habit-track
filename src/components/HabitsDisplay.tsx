@@ -9,6 +9,8 @@ export default function HabitsDisplay({ habits, setHabits }: any) {
             <Habit
               id={habit.id}
               title={habit.title}
+              startDate={habit.start_date}
+              endDate={habit.end_date}
               completionData={habit.completion_data}
               createdAt={habit.created_at}
               setHabits={setHabits}
