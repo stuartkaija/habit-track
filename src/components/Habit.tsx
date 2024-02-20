@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { isSameDay } from 'date-fns';
+import { isSameDay, isWithinInterval } from 'date-fns';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../lib/AuthProvider';
 import Day from './Day';
@@ -96,6 +96,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
                       <Day
                         key={cellIndex}
                         createdToday={isSameDay(createdAt, date)}
+                        isWithinTimeframe={isWithinInterval(date, {start: startDate, end: endDate})}
                         date={date}
                         day={dayOfWeek}
                         week={weekOfYear}
