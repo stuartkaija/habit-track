@@ -16,7 +16,7 @@ export default function Day({ date, createdToday, isWithinTimeframe, day, week, 
   return (
     <div className="group relative w-max">
       <div
-        className={`h-3 w-3 border rounded-sm cursor-pointer hover:bg-green-100 ${createdToday ? 'border-orange-500 shadow-sm shadow-orange-300' : ''} ${isToday(date) ? 'border-blue-500 shadow-sm shadow-blue-300' : ''} ${completionStatus ? 'bg-green-300' : 'bg-gray-100'}`}
+        className={`h-3 w-3 border rounded-sm cursor-pointer hover:bg-green-100 ${createdToday ? 'border-orange-500 shadow-sm shadow-orange-300' : 'shadow-sm shadow-indigo-100'} ${isToday(date) ? 'border-blue-500 shadow-sm shadow-blue-300' : ''} ${completionStatus ? 'bg-green-300' : 'bg-slate-50'}`}
         onClick={handleMarkComplete}
       >
       </div>
