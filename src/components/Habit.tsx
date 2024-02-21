@@ -57,11 +57,11 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
   }
 
   return (
-    <div className='flex flex-col lg:flex-row lg:justify-around m-2 p-4 rounded-lg border border-blue-200'>
-      <div className='flex justify-between lg:flex-col lg:w-72 m-1 rounded-md border border-green-200 hover:border-green-400'>
+    <div className='flex flex-col m-2 p-4 rounded-lg border border-blue-200'>
+      <div className='flex-grow-1 flex justify-between items-center m-1 rounded-md border border-green-200 hover:border-green-400'>
         <h2 className='text-md sm:text-lg md:text-2xl font-semibold m-2'>{title}</h2>
-        <div>
-          <button onClick={handleOpenEditModal} className='m-2 px-4 max-w-32 rounded bg-purple-200 hover:bg-purple-300'>Edit</button>
+        <div className=''>
+          <button onClick={handleOpenEditModal} className='m-1 px-3 py-1 lg:w-24  rounded bg-purple-200 hover:bg-purple-300'>Edit</button>
           <EditModal
             name={title}
             startDate={startDate}
@@ -71,7 +71,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
             habitId={id}
             completionData={completionData}
           />
-          <button onClick={handleOpenDeleteModal} className='m-2 px-4 max-w-32 rounded bg-red-200 hover:bg-red-300'>Delete</button>
+          <button onClick={handleOpenDeleteModal} className='m-1 px-3 py-1 w-24 rounded bg-red-200 hover:bg-red-300'>Delete</button>
           <DeleteModal
             modalOpen={deleteModalOpen}
             handleOpenModal={handleOpenDeleteModal}
@@ -80,14 +80,15 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
         </div>
       </div>
 
-      {/* <div className='m-1 p-1 rounded-md border border-yellow-200 hover:border-yellow-400'>
+      <div className='flex-grow-1 m-1 p-1 rounded-md border border-yellow-200 hover:border-yellow-400'>
         <h3>Stats</h3>
         <ul>
-          <li>stat 1</li>
+          <li>Days Completed: 24</li>
+          <li>Frequency: 50%</li>
         </ul>
-      </div> */}
+      </div>
 
-      <div className='m-1 rounded-md p-4 flex border border-pink-300 hover:border-pink-500'>
+      <div className='flex-grow m-1 rounded-md p-4 flex border border-pink-300 hover:border-pink-500'>
         <div className='md:w-1/12 grid grid-rows-7 justify-items-end mr-2'>
           <p className='row-start-2 text-xs'>Mon</p>
           <p className='row-start-4 text-xs'>Wed</p>
