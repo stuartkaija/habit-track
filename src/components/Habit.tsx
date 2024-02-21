@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { isSameDay, isWithinInterval } from 'date-fns';
+import { format, isFirstDayOfMonth, isSameDay, isWithinInterval, getMonth } from 'date-fns';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../lib/AuthProvider';
 import Day from './Day';
@@ -57,7 +57,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
   }
 
   return (
-    <div className='flex flex-col lg:flex-row lg:justify-around m-2 rounded-lg border border-blue-200'>
+    <div className='flex flex-col lg:flex-row lg:justify-around m-2 p-4 rounded-lg border border-blue-200'>
       <div className='flex justify-between lg:flex-col lg:w-72 m-1 rounded-md border border-green-200 hover:border-green-400'>
         <h2 className='text-md sm:text-lg md:text-2xl font-semibold m-2'>{title}</h2>
         <div>
@@ -87,7 +87,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
         </ul>
       </div> */}
 
-      <div className='m-1 rounded-md p-2 flex border border-pink-300 hover:border-pink-500'>
+      <div className='m-1 rounded-md p-4 flex border border-pink-300 hover:border-pink-500'>
         <div className='md:w-1/12 grid grid-rows-7 justify-items-end mr-2'>
           <p className='row-start-2 text-xs'>Mon</p>
           <p className='row-start-4 text-xs'>Wed</p>
@@ -97,9 +97,25 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
         <div className='overflow-x-auto'>
           <div className='grid grid-cols-53 gap-1 w-max'>
             {completionData && completionData.map((week: [], index: number) => {
+              // console.log(week)
+              let isFirstWeek = false;
+              let month = null;
+
+              const firstDayOfMonth = week.find(el => isFirstDayOfMonth(el.date));
+              console.log(firstDayOfMonth)
+
+              if (firstDayOfMonth) {
+                isFirstWeek = true;
+                month = getMonth(firstDayOfMonth.date)
+              }
+
               return (
-                <div key={index} className='items-center grid grid-rows-7 gap-1'>
+                <div key={index} className='relative my-4 items-center grid grid-rows-7 gap-1'>
+                  {isFirstWeek &&
+                    <span className='absolute -top-4 z-50 text-xs '>{format(firstDayOfMonth?.date, 'MMM')}</span>
+                  }
                   {week.map(({ date, habitComplete, dayOfWeek, weekOfYear }: any, cellIndex) => {
+                    const firstDayOfMonth = isFirstDayOfMonth(date);
                     return (
                       <Day
                         key={cellIndex}
@@ -107,7 +123,8 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
                         isWithinTimeframe={isWithinInterval(date, { start: startDate, end: endDate })}
                         date={date}
                         day={dayOfWeek}
-                        week={weekOfYear}
+                        firstDayOfMonth={firstDayOfMonth} // boolean
+                        weekOfYear={weekOfYear}
                         completionStatus={habitComplete}
                         handleUpdateHabit={handleUpdateHabit}
                       />

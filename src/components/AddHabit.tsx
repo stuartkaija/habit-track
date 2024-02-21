@@ -32,20 +32,8 @@ export default function AddHabit() {
   }
 
   return (
-    <div>
-      <h2>Add Habit</h2>
-      {/* <form className='m-2' onSubmit={handleAddNewHabit}>
-        <input 
-          className='border-yellow-200 border-2 rounded-md p-2 px-6 mr-2' 
-          type="text"
-          value={newHabit}
-          placeholder='e.g. gym'
-          onChange={(event) => setNewHabit(event.target.value)}
-        />
-        <button className='p-2 px-6 bg-yellow-400 rounded-md'>generate habit</button>
-      </form> */}
-      
-      <button onClick={handleOpenModal} className='p-2 px-6 bg-orange-200 hover:bg-orange-400 rounded-md'>add habit</button>
+    <div className='self-center'>      
+      <button onClick={handleOpenModal} className='p-2 m-2 w-48 bg-emerald-200 hover:bg-emerald-400 rounded-md font-bold'>Add Habit</button>
       <AddHabitModal
         modalOpen={modalOpen}
         handleOpenModal={handleOpenModal}

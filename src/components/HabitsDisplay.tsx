@@ -5,7 +5,7 @@ export default function HabitsDisplay({ habits, setHabits }: any) {
     <ol>
       {habits.map((habit: any) => {
         return (
-          <li key={habit.id} className="divide-y">
+          <li key={habit.id} className="">
             <Habit
               id={habit.id}
               title={habit.title}

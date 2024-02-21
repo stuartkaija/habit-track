@@ -1,9 +1,9 @@
 import { format, isToday } from "date-fns"; // use this to check the created at, and if date isPast compared to created at, we'll make all those days light grey or something and click disabled maybe
 
-export default function Day({ date, createdToday, isWithinTimeframe, day, week, completionStatus, handleUpdateHabit }: any) {
+export default function Day({ date, createdToday, isWithinTimeframe, day, firstDayOfMonth, weekOfYear, completionStatus, handleUpdateHabit }: any) {
 
   const handleMarkComplete = async () => {
-    handleUpdateHabit(day, week, !completionStatus);
+    handleUpdateHabit(day, weekOfYear, !completionStatus);
   }
 
   if (!date || !isWithinTimeframe) {
@@ -22,8 +22,14 @@ export default function Day({ date, createdToday, isWithinTimeframe, day, week, 
       </div>
       {/* tooltip */}
       <span
-        className={`pointer-events-none z-50 absolute ${day < 2 ? 'top-2' : '-top-7'} ${week < 10 ? 'left-2' : 'right-2'} w-max rounded bg-gray-900 px-2 py-1 text-sm font-medium text-gray-50 opacity-0 shadow transition-opacity delay-200 group-hover:opacity-100`}>
+        className={`pointer-events-none z-50 absolute ${day < 2 ? 'top-2' : '-top-7'} ${weekOfYear < 10 ? 'left-2' : 'right-2'} w-max rounded bg-gray-900 px-2 py-1 text-sm font-medium text-gray-50 opacity-0 shadow transition-opacity delay-200 group-hover:opacity-100`}>
           {format(date, 'EEEE MMMM do')}
+          <br />
+          day-{day}
+          <br />
+          week-{weekOfYear}
+          <br />
+          {firstDayOfMonth.toString()}
       </span>
     </div>
   )

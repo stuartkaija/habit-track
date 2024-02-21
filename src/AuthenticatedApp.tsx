@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { supabase } from "./supabaseClient";
 import { useAuth } from "./lib/AuthProvider";
+import upArrow from './assets/icons8-arrow-50.png'
 import Nav from "./components/Nav";
 import AddHabit from "./components/AddHabit";
 import HabitsDisplay from "./components/HabitsDisplay";
@@ -70,12 +71,18 @@ export default function AuthenticatedApp() {
   return (
     <div>
       <Nav />
-      <div className="p-2">
+      <div className="flex flex-col p-2">
         <HabitsDisplay
           habits={habits}
           setHabits={setHabits}
         />
         <AddHabit />
+        {!habits.length &&
+          <div className="self-center flex flex-col items-center mt-2">
+            <img className="w-6 animate-wiggle" src={upArrow} alt="arrow pointing up" />
+            <p className="m-4 font-bold">start here!</p>
+          </div>
+        }
       </div>
     </div>
   )

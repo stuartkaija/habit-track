@@ -70,7 +70,7 @@ export default function Login() {
           onChange={handleEmailInput}
         />
         <p className={`text-red-400 mb-2 font-bold text-sm ${error ? 'visible' : 'invisible'}`}>please enter a valid email</p>
-        <button className={`${loading ? 'bg-indigo-100 hover:bg-indigo-100' : 'bg-indigo-300 hover:bg-indigo-500'} rounded-sm w-full p-2`} disabled={loading}>
+        <button className={`${loading ? 'bg-indigo-100 hover:bg-indigo-100' : 'bg-indigo-300 hover:bg-indigo-500 hover:text-white'} rounded-sm w-full p-2`} disabled={loading}>
           {loading ? 'Loading' : 'Send magic link'}
         </button>
       </form>
@@ -78,14 +78,14 @@ export default function Login() {
         <button
           onClick={handleLoginWithGoogle}
           disabled={loading}
-          className="p-2 mb-2 px-6 bg-slate-200 hover:bg-slate-400 rounded-sm"
+          className="p-2 mb-2 px-6 bg-slate-200 hover:bg-slate-400 hover:text-white rounded-sm"
         >
           Sign In With Google
         </button>
         <button
           onClick={handleLoginWithFacebook}
           disabled={loading}
-          className="p-2 px-6 bg-slate-200 hover:bg-slate-400 rounded-sm"
+          className="p-2 px-6 bg-slate-200 hover:bg-slate-400 hover:text-white rounded-sm"
         >
           Sign In With Facebook
         </button>
