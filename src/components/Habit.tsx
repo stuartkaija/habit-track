@@ -101,8 +101,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
               let isFirstWeek = false;
               let month = null;
 
-              const firstDayOfMonth = week.find(el => isFirstDayOfMonth(el.date));
-              console.log(firstDayOfMonth)
+              const firstDayOfMonth = week.find(day => isFirstDayOfMonth(day.date));
 
               if (firstDayOfMonth) {
                 isFirstWeek = true;
@@ -115,15 +114,13 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
                     <span className='absolute -top-4 z-50 text-xs '>{format(firstDayOfMonth?.date, 'MMM')}</span>
                   }
                   {week.map(({ date, habitComplete, dayOfWeek, weekOfYear }: any, cellIndex) => {
-                    const firstDayOfMonth = isFirstDayOfMonth(date);
                     return (
                       <Day
                         key={cellIndex}
+                        date={date}
                         createdToday={isSameDay(createdAt, date)}
                         isWithinTimeframe={isWithinInterval(date, { start: startDate, end: endDate })}
-                        date={date}
                         day={dayOfWeek}
-                        firstDayOfMonth={firstDayOfMonth} // boolean
                         weekOfYear={weekOfYear}
                         completionStatus={habitComplete}
                         handleUpdateHabit={handleUpdateHabit}

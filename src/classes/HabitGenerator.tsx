@@ -28,7 +28,7 @@ class HabitGenerator {
     }
 
     // the following code modifies the first and last weeks to ensure that they have a length of 7
-    // this results in a square matrix which simplifies styling the grid i.e. every week can be mapped over and display horizontally, inside each week we can map again vertically
+    // this results in a square matrix which simplifies styling the grid i.e. every week can be mapped and styled horizontally, inside each week we can map and style vertically
     const firstWeekLength = habitData[0].length;
     if (firstWeekLength < 7) {
       const missingDays = 7 - firstWeekLength;
@@ -43,6 +43,12 @@ class HabitGenerator {
       for (let i = 0; i < missingDays; i++) {
         habitData[habitData.length - 1].push({ date: null, habitComplete: false, dayOfWeek: i + lastWeekLength, weekOfMonth: null, weekOfYear: habitData.length, month: null })
       }
+    }
+
+    // the following resolves issue where some of the last days of the year can fall into the first week of the following, which is problematic for styling calendar grid
+    const lastWeekOfYear = habitData[habitData.length - 1];
+    for (let i = 0; i < 7; i++) {
+      lastWeekOfYear[i].weekOfYear = 53;
     }
 
     return habitData;

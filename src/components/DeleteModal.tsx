@@ -12,7 +12,7 @@ export default function DeleteModal({
 }) {
   return (
     <Dialog open={modalOpen} onClose={handleOpenModal}>
-      <DialogTitle>delete habit</DialogTitle>
+      <DialogTitle>Delete Habit</DialogTitle>
       <DialogContent>
         <DialogContentText>Are you sure you want to delete this habit? All associated data will be deleted. This action can't be reversed.</DialogContentText>
       </DialogContent>
