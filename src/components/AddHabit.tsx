@@ -33,7 +33,7 @@ export default function AddHabit() {
 
   return (
     <div className='self-center'>      
-      <button onClick={handleOpenModal} className='p-2 m-2 w-48 bg-emerald-200 hover:bg-emerald-400 rounded-md font-bold'>Add Habit</button>
+      <button onClick={handleOpenModal} className='p-2 m-2 w-48 lg:w-96 bg-emerald-200 hover:bg-emerald-400 rounded-md font-bold'>Add Habit</button>
       <AddHabitModal
         modalOpen={modalOpen}
         handleOpenModal={handleOpenModal}

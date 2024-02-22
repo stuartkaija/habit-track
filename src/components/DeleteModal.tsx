@@ -17,8 +17,8 @@ export default function DeleteModal({
         <DialogContentText>Are you sure you want to delete this habit? All associated data will be deleted. This action can't be reversed.</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <button className='m-2 px-4 max-w-32 rounded bg-red-200 hover:bg-red-300' onClick={handleDeleteHabit}>Delete</button>
-        <button className='m-2 px-4 max-w-32 rounded bg-slate-200 hover:bg-slate-300' onClick={handleOpenModal}>Cancel</button>
+        <button className='m-2 p-2 w-2/3 rounded bg-red-300 hover:bg-red-400' onClick={handleDeleteHabit}>Delete</button>
+        <button className='m-2 p-2 w-1/3 rounded bg-slate-200 hover:bg-slate-300' onClick={handleOpenModal}>Cancel</button>
       </DialogActions>
     </Dialog>
   )
