@@ -57,11 +57,11 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
   }
 
   return (
-    <div className='flex flex-col m-2 p-4 rounded-lg border border-blue-200'>
-      <div className='flex-grow-1 flex justify-between items-center m-1 rounded-md border border-green-200 hover:border-green-400'>
+    <div className='flex flex-col m-2 p-4 rounded-lg border border-slate-400 hover:border-slate-500'>
+      <div className='flex-grow-1 flex justify-between items-center m-1 border-b border-indigo-200'>
         <h2 className='text-md sm:text-lg md:text-2xl font-semibold m-2'>{title}</h2>
         <div className=''>
-          <button onClick={handleOpenEditModal} className='m-1 px-3 py-1 lg:w-24  rounded bg-purple-200 hover:bg-purple-300'>Edit</button>
+          <button onClick={handleOpenEditModal} className='m-1 px-3 py-1 lg:w-24  rounded bg-yellow-200 hover:bg-yellow-300'>Edit</button>
           <EditModal
             name={title}
             startDate={startDate}
@@ -71,7 +71,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
             habitId={id}
             completionData={completionData}
           />
-          <button onClick={handleOpenDeleteModal} className='m-1 px-3 py-1 w-24 rounded bg-red-200 hover:bg-red-300'>Delete</button>
+          <button onClick={handleOpenDeleteModal} className='m-1 px-3 py-1 w-24 rounded bg-red-300 hover:bg-red-400'>Delete</button>
           <DeleteModal
             modalOpen={deleteModalOpen}
             handleOpenModal={handleOpenDeleteModal}
@@ -80,57 +80,60 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
         </div>
       </div>
 
-      <div className='flex-grow-1 m-1 p-1 rounded-md border border-yellow-200 hover:border-yellow-400'>
-        <h3>Stats</h3>
-        <ul>
-          <li>Days Completed: 24</li>
-          <li>Frequency: 50%</li>
-        </ul>
-      </div>
+      <div className='lg:flex'>
 
-      <div className='flex-grow m-1 rounded-md p-4 flex border border-pink-300 hover:border-pink-500'>
-        <div className='md:w-1/12 grid grid-rows-7 justify-items-end mr-2'>
-          <p className='row-start-2 text-xs'>Mon</p>
-          <p className='row-start-4 text-xs'>Wed</p>
-          <p className='row-start-6 text-xs'>Fri</p>
+
+        <div className='flex-grow-1 m-1 p-1 border-b border-indigo-200 lg:border-0'>
+          <h3>Stats</h3>
+          <ul>
+            <li>Days Completed: 24</li>
+            <li>Frequency: 50%</li>
+          </ul>
         </div>
 
-        <div className='overflow-x-auto'>
-          <div className='grid grid-cols-53 gap-1 w-max'>
-            {completionData && completionData.map((week: [], index: number) => {
-              // console.log(week)
-              let isFirstWeek = false;
-              let month = null;
+        <div className='flex-grow justify-center m-1 rounded-md p-4 flex'>
+          <div className='md:w-1/12 grid grid-rows-7 justify-items-end mr-2'>
+            <p className='row-start-2 text-xs'>Mon</p>
+            <p className='row-start-4 text-xs'>Wed</p>
+            <p className='row-start-6 text-xs'>Fri</p>
+          </div>
 
-              const firstDayOfMonth = week.find(day => isFirstDayOfMonth(day.date));
+          <div className='overflow-x-auto'>
+            <div className='grid grid-cols-53 gap-1 w-max'>
+              {completionData && completionData.map((week: [], index: number) => {
+                // this allows us to find the first week of each month so as to place the month names correctly
+                let isFirstWeek = false;
+                let month = null;
+                const firstDayOfMonth = week.find(day => isFirstDayOfMonth(day.date));
 
-              if (firstDayOfMonth) {
-                isFirstWeek = true;
-                month = getMonth(firstDayOfMonth.date)
-              }
+                if (firstDayOfMonth) {
+                  isFirstWeek = true;
+                  month = getMonth(firstDayOfMonth.date)
+                }
 
-              return (
-                <div key={index} className='relative my-4 items-center grid grid-rows-7 gap-1'>
-                  {isFirstWeek &&
-                    <span className='absolute -top-4 z-50 text-xs '>{format(firstDayOfMonth?.date, 'MMM')}</span>
-                  }
-                  {week.map(({ date, habitComplete, dayOfWeek, weekOfYear }: any, cellIndex) => {
-                    return (
-                      <Day
-                        key={cellIndex}
-                        date={date}
-                        createdToday={isSameDay(createdAt, date)}
-                        isWithinTimeframe={isWithinInterval(date, { start: startDate, end: endDate })}
-                        day={dayOfWeek}
-                        weekOfYear={weekOfYear}
-                        completionStatus={habitComplete}
-                        handleUpdateHabit={handleUpdateHabit}
-                      />
-                    )
-                  })}
-                </div>
-              )
-            })}
+                return (
+                  <div key={index} className='relative my-4 items-center grid grid-rows-7 gap-1'>
+                    {isFirstWeek &&
+                      <span className='absolute -top-4 z-50 text-xs '>{format(firstDayOfMonth?.date, 'MMM')}</span>
+                    }
+                    {week.map(({ date, habitComplete, dayOfWeek, weekOfYear }: any, cellIndex) => {
+                      return (
+                        <Day
+                          key={cellIndex}
+                          date={date}
+                          createdToday={isSameDay(createdAt, date)}
+                          isWithinTimeframe={isWithinInterval(date, { start: startDate, end: endDate })}
+                          day={dayOfWeek}
+                          weekOfYear={weekOfYear}
+                          completionStatus={habitComplete}
+                          handleUpdateHabit={handleUpdateHabit}
+                        />
+                      )
+                    })}
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>

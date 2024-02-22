@@ -69,7 +69,7 @@ export default function Login() {
           value={email}
           onChange={handleEmailInput}
         />
-        <p className={`text-red-400 mb-2 font-bold text-sm ${error ? 'visible' : 'invisible'}`}>please enter a valid email</p>
+        <p className={`text-red-500 mb-2 font-bold text-sm ${error ? 'visible' : 'invisible'}`}>please enter a valid email</p>
         <button className={`${loading ? 'bg-indigo-100 hover:bg-indigo-100' : 'bg-indigo-300 hover:bg-indigo-500 hover:text-white'} rounded-sm w-full p-2`} disabled={loading}>
           {loading ? 'Loading' : 'Send magic link'}
         </button>
