@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import { isBefore } from 'date-fns';
+import { isBefore, startOfYear, endOfYear } from 'date-fns';
 import { useAuth } from '../lib/AuthProvider';
 import { supabase } from '../supabaseClient';
 import HabitGenerator from '../classes/HabitGenerator';
@@ -15,9 +15,12 @@ export default function AddHabitModal({
   modalOpen: boolean
   handleOpenModal: any
 }) {
+  const firstDayOfYear = startOfYear(new Date());
+  const lastDayOfYear = endOfYear(new Date());
+
   const [habitName, setHabitName] = useState<string>('');
-  const [startDate, setStartDate] = useState<string | null>(null);
-  const [endDate, setEndDate] = useState<string | null>(null);
+  const [startDate, setStartDate] = useState<Date | string | null>(firstDayOfYear);
+  const [endDate, setEndDate] = useState<Date | string | null>(lastDayOfYear);
   const [nameError, setNameError] = useState<boolean>(false);
   const [dateError, setDateError] = useState<boolean>(false);
 
@@ -25,8 +28,8 @@ export default function AddHabitModal({
 
   const resetAllState = () => {
     setHabitName('');
-    setStartDate(null);
-    setEndDate(null);
+    setStartDate(firstDayOfYear);
+    setEndDate(lastDayOfYear);
     setNameError(false);
     setDateError(false);
   }
