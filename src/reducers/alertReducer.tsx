@@ -6,7 +6,7 @@ export const alertReducer = (state: any, action: any) => {
         alerts: [...state.alerts, action.payload]
       }
     case "DELETE_ALERT":
-      const updatedAlerts = state.toast.filter((alert: any) => alert.id !== action.payload)
+      const updatedAlerts = state.alerts.filter((alert: any) => alert.id !== action.payload)
       return {
         ...state,
         alerts: updatedAlerts

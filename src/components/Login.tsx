@@ -11,7 +11,7 @@ export default function Login() {
 
   const alert = useAlert();
 
-  const handleEmailInput = (event: React.SyntheticEvent) => {
+  const handleEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setError(false);
     setEmail(event.target.value)

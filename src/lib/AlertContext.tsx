@@ -24,12 +24,12 @@ const AlertContextProvider = ({ children }: { children: ReactNode }) => {
     addAlert("error", message);
   }
 
-  const removeAlert = (id: number) => {
+  const remove = (id: number) => {
     dispatch({ type: "DELETE_ALERT", payload: id })
   }
 
   return (
-    <AlertContext.Provider value={{ success, error, removeAlert }}>
+    <AlertContext.Provider value={{ success, error, remove }}>
       <AlertContainer alerts={state.alerts} />
       {children}
     </AlertContext.Provider>
