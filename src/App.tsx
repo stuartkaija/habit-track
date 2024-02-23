@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { AuthProvider } from './lib/AuthProvider';
+import { AlertContextProvider } from './lib/AlertContext';
 import Root from './routes/Root';
 import About from './routes/About';
 import Demo from './routes/Demo';
@@ -35,7 +36,9 @@ function App() {
   return (
     <AuthProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <RouterProvider router={router} />
+        <AlertContextProvider>
+          <RouterProvider router={router} />
+        </AlertContextProvider>
       </LocalizationProvider>
     </AuthProvider>
   )

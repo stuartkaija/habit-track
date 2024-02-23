@@ -3,6 +3,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, T
 import { DatePicker } from '@mui/x-date-pickers';
 import { isBefore, startOfYear, endOfYear } from 'date-fns';
 import { useAuth } from '../lib/AuthProvider';
+import { useAlert } from '../lib/AlertContext';
 import { supabase } from '../supabaseClient';
 import HabitGenerator from '../classes/HabitGenerator';
 
@@ -25,6 +26,7 @@ export default function AddHabitModal({
   const [dateError, setDateError] = useState<boolean>(false);
 
   const { user } = useAuth();
+  const alert = useAlert();
 
   const resetAllState = () => {
     setHabitName('');
@@ -50,7 +52,7 @@ export default function AddHabitModal({
     // generate habit data
     const newHabitData = generator.generateHabitData();
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('habits')
       .insert({
         user_id: user?.id,
@@ -58,14 +60,19 @@ export default function AddHabitModal({
         start_date: startDate,
         end_date: endDate,
         completion_data: newHabitData
-      });
+      })
+      .select();
 
     if (error) {
+      alert.error('Sorry, unable to add habit!')
       console.warn(error)
-      return;
-    } else {
-      console.log('successfully inserted new habit')
+      return; // TODO get rid of this? if there's an error, we return, meaning we don't reset the habit data and don't close the modal - does that make sense to do?
     }
+
+    if (data) {
+      alert.success('Successfully added habit')
+    }
+
     resetAllState();
     handleOpenModal();
   }

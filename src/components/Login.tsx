@@ -7,6 +7,7 @@ export default function Login() {
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
+  const [successAlert, setSuccessAlert] = useState<boolean>(true);
 
   const handleEmailInput = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -25,11 +26,13 @@ export default function Login() {
 
     setLoading(true);
 
-    const { error } = await supabase.auth.signInWithOtp({ email });
+    const { data, error } = await supabase.auth.signInWithOtp({ email });
 
     if (error) {
       alert(error.message)
     } else {
+      console.log(data);
+      // 
       alert('Check your email for the login link')
     }
     setLoading(false)
@@ -59,6 +62,7 @@ export default function Login() {
   return (
     // <div className="flex flex-center items-center justify-center h-full">
     <div className="flex flex-col justify-between h-96 w-80 text-black bg-white p-2 rounded-lg">
+      {/* {successAlert && <SuccessAlert/>} */}
       <h2 className="text-2xl font-bold">{hasAnAccount ? 'Login' : 'Sign Up'}</h2>
       <p className="">{hasAnAccount ? 'Sign in with your email via a magic link.' : 'Sign up with your email via a magic link.'}</p>
       <form className="" onSubmit={handleLoginWithOtp}>

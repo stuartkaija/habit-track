@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { format, isFirstDayOfMonth, isSameDay, isWithinInterval, getMonth } from 'date-fns';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../lib/AuthProvider';
+import { useAlert } from '../lib/AlertContext';
 import Day from './Day';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
@@ -10,6 +11,9 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
   const { user } = useAuth();
+
+  const alert = useAlert();
+  console.log(alert)
 
   const memoizedCompletionData = useMemo(() => {
     return completionData
@@ -23,10 +27,12 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
       .eq('id', id)
 
     if (error) {
+      alert.error("Sorry, we encountered an issue attempting to delete this habit")
       console.warn(error)
     }
 
     if (data) {
+      alert.success("Successfully deleted habit")
       console.log(data);
     }
   }
@@ -59,7 +65,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
   return (
     <div className='flex flex-col m-2 p-4 rounded-lg border border-slate-400 hover:border-slate-500'>
       <div className='flex-grow-1 flex justify-between items-center m-1 border-b border-indigo-200'>
-        <h2 className='text-md sm:text-lg md:text-2xl font-semibold m-2'>{title}</h2>
+        <h2 className='text-slate-800 text-md sm:text-lg md:text-2xl font-semibold m-2'>{title}</h2>
         <div className=''>
           <button onClick={handleOpenEditModal} className='m-1 px-3 py-1 lg:w-24  rounded bg-yellow-200 hover:bg-yellow-300'>Edit</button>
           <EditModal
@@ -77,6 +83,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
             handleOpenModal={handleOpenDeleteModal}
             handleDeleteHabit={handleDeleteHabit}
           />
+          <button onClick={() => alert.success("SUCCESS!")}>Display Alert</button>
         </div>
       </div>
 
@@ -114,7 +121,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
                 return (
                   <div key={index} className='relative my-4 items-center grid grid-rows-7 gap-1'>
                     {isFirstWeek &&
-                      <span className='absolute -top-4 z-50 text-xs '>{format(firstDayOfMonth?.date, 'MMM')}</span>
+                      <span className='absolute -top-4 z-40 text-xs '>{format(firstDayOfMonth?.date, 'MMM')}</span>
                     }
                     {week.map(({ date, habitComplete, dayOfWeek, weekOfYear }: any, cellIndex) => {
                       return (
