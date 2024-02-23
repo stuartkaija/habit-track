@@ -3,6 +3,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, T
 import { DatePicker } from '@mui/x-date-pickers';
 import { isBefore } from 'date-fns';
 import { supabase } from '../supabaseClient';
+import { useAlert } from '../lib/AlertContext';
 
 export default function EditModal({
   name,
@@ -26,6 +27,8 @@ export default function EditModal({
   const [newEndDate, setNewEndDate] = useState<string | null>(endDate);
   const [nameError, setNameError] = useState<boolean>(false);
   const [dateError, setDateError] = useState<boolean>(false);
+
+  const alert = useAlert();
 
   const handleEditHabit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -51,9 +54,9 @@ export default function EditModal({
       .eq('id', habitId);
 
     if (error) {
-      console.log(error);
+      alert.error(`Sorry, couldn't update habit at this time`)
     } else {
-      console.log('successfully edited habit')
+      alert.success('Habit edited')
     }
 
     handleOpenModal();

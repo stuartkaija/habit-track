@@ -1,13 +1,15 @@
 import { useState } from "react";
 import isEmail from "validator/lib/isEmail";
 import { supabase } from "../supabaseClient";
+import { useAlert } from "../lib/AlertContext";
 
 export default function Login() {
   const [hasAnAccount, setHasAnAccount] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
-  const [successAlert, setSuccessAlert] = useState<boolean>(true);
+
+  const alert = useAlert();
 
   const handleEmailInput = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -15,7 +17,8 @@ export default function Login() {
     setEmail(event.target.value)
   }
 
-  const handleLoginWithOtp = async () => {
+  const handleLoginWithOtp = async (event: React.SyntheticEvent) => {
+    event.preventDefault();
 
     if (!isEmail(email)) {
       setError(true);
@@ -26,31 +29,29 @@ export default function Login() {
 
     setLoading(true);
 
-    const { data, error } = await supabase.auth.signInWithOtp({ email });
+    const { error } = await supabase.auth.signInWithOtp({ email });
 
     if (error) {
-      alert(error.message)
+      alert.error(`Error: ${error.message}`)
     } else {
-      console.log(data);
-      // 
-      alert('Check your email for the login link')
+      alert.success('Check your email for a login link!')
     }
+
     setLoading(false)
   }
 
   const handleLoginWithGoogle = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-
     setLoading(true);
-    const { data, error } = await supabase.auth.signInWithOAuth({
+
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
     })
 
     if (error) {
-      alert(error.message)
-    } else {
-      console.log(data)
+      alert.error(error.message)
     }
+
     setLoading(false);
   }
 

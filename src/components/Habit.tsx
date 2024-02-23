@@ -10,10 +10,9 @@ import DeleteModal from './DeleteModal';
 export default function Habit({ id, title, startDate, endDate, createdAt, completionData }: any) {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+  
   const { user } = useAuth();
-
   const alert = useAlert();
-  console.log(alert)
 
   const memoizedCompletionData = useMemo(() => {
     return completionData
@@ -21,19 +20,16 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
 
   // delete habit
   const handleDeleteHabit = async () => {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('habits')
       .delete()
       .eq('id', id)
 
     if (error) {
-      alert.error("Sorry, we encountered an issue attempting to delete this habit")
+      alert.error("Sorry, encountered issue trying to delete habit")
       console.warn(error)
-    }
-
-    if (data) {
-      alert.success("Successfully deleted habit")
-      console.log(data);
+    } else {
+      alert.success("Habit deleted")
     }
   }
 
@@ -95,6 +91,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
           <ul>
             <li>Days Completed: 24</li>
             <li>Frequency: 50%</li>
+            <li>Weekly Average</li>
           </ul>
         </div>
 

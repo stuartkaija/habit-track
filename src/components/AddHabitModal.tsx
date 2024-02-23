@@ -52,7 +52,7 @@ export default function AddHabitModal({
     // generate habit data
     const newHabitData = generator.generateHabitData();
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('habits')
       .insert({
         user_id: user?.id,
@@ -61,15 +61,12 @@ export default function AddHabitModal({
         end_date: endDate,
         completion_data: newHabitData
       })
-      .select();
 
     if (error) {
-      alert.error('Sorry, unable to add habit!')
+      alert.error('Sorry, unable to add habit')
       console.warn(error)
       return; // TODO get rid of this? if there's an error, we return, meaning we don't reset the habit data and don't close the modal - does that make sense to do?
-    }
-
-    if (data) {
+    } else {
       alert.success('Successfully added habit')
     }
 

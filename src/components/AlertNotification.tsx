@@ -42,7 +42,7 @@ export default function AlertNotification({
           </svg>
         </span>
 
-        <div className="flex-1">
+        <div className="flex-1 text-center">
           {/* <strong className="block font-medium text-slate-900"> Changes saved </strong> */}
 
           <p className="mt-1 font-medium text-slate-700">{message}</p>

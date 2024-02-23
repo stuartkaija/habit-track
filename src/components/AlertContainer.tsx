@@ -1,10 +1,9 @@
 import AlertNotification from "./AlertNotification"
-import SuccessAlert from "./SuccessAlert";
 
-export default function AlertContainer({ alerts }) {
+export default function AlertContainer({ alerts }: any) {
   return (
-    <div className="absolute z-50 w-96 m-auto left-0 right-0 top-2">
-      {alerts.map((alert) => {
+    <div className="absolute sticky z-50 w-96 m-auto left-0 right-0 top-2">
+      {alerts.map((alert: any) => {
         console.log(alert)
         return (
           <AlertNotification
