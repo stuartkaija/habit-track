@@ -8,7 +8,8 @@ export default function Day({ date, createdToday, isWithinTimeframe, day, weekOf
 
   if (!date || !isWithinTimeframe) {
     return (
-      <div className={`h-3 w-3 rounded-sm bg-slate-200`}>
+      // <div className={`h-3 w-3 rounded-sm bg-slate-200`}>
+      <div className={`h-3 w-3 rounded-sm bg-slate-200 border ${createdToday ? 'border-amber-400' : ''}`}>
       </div>
     )
   }
@@ -16,7 +17,7 @@ export default function Day({ date, createdToday, isWithinTimeframe, day, weekOf
   return (
     <div className="group relative w-max">
       <div
-        className={`h-3 w-3 border rounded-sm cursor-pointer hover:bg-green-100 ${createdToday ? 'border-orange-500 shadow-sm shadow-orange-300' : 'shadow-sm shadow-indigo-100'} ${isToday(date) ? 'border-blue-500 shadow-sm shadow-blue-300' : ''} ${completionStatus ? 'bg-green-300' : 'bg-slate-50'}`}
+        className={`h-3 w-3 border rounded-sm cursor-pointer hover:bg-green-100 ${createdToday ? 'border-amber-500 shadow-sm shadow-amber-400' : 'shadow-sm shadow-indigo-100'} ${isToday(date) ? 'border-blue-500 shadow-sm shadow-blue-400' : ''} ${completionStatus ? 'bg-green-300' : 'bg-slate-50'}`}
         onClick={handleMarkComplete}
       >
       </div>

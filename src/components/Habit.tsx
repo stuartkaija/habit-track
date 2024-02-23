@@ -64,7 +64,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
       <div className='flex-grow-1 flex justify-between items-center m-1 border-b border-indigo-200'>
         <h2 className='text-slate-800 text-md sm:text-lg md:text-2xl font-semibold m-2'>{title}</h2>
         <div className=''>
-          <button onClick={handleOpenEditModal} className='m-1 px-3 py-1 lg:w-24  rounded bg-yellow-200 hover:bg-yellow-300'>Edit</button>
+          <button onClick={handleOpenEditModal} className='m-1 px-3 py-1 w-24 border border-slate-800 hover:bg-amber-500 hover:text-white transition-colors'>Edit</button>
           <EditModal
             name={title}
             startDate={startDate}
@@ -74,7 +74,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
             habitId={id}
             completionData={completionData}
           />
-          <button onClick={handleOpenDeleteModal} className='m-1 px-3 py-1 w-24 rounded bg-red-300 hover:bg-red-400'>Delete</button>
+          <button onClick={handleOpenDeleteModal} className='m-1 px-3 py-1 w-24 border border-slate-800 hover:bg-red-500 hover:text-white transition-colors '>Delete</button>
           <DeleteModal
             modalOpen={deleteModalOpen}
             handleOpenModal={handleOpenDeleteModal}
