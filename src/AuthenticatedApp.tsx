@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react"
 import { supabase } from "./supabaseClient";
 import { useAuth } from "./lib/AuthProvider";
+import { useAlert } from "./lib/AlertContext";
 import upArrow from './assets/icons8-arrow-50.png'
 import Nav from "./components/Nav";
 import AddHabit from "./components/AddHabit";
 import HabitsDisplay from "./components/HabitsDisplay";
 
 export default function AuthenticatedApp() {
-  const { user } = useAuth();
   const [habits, setHabits] = useState<any[]>([]);
+
+  const { user } = useAuth();
+  const alert = useAlert();
 
   const loadHabits = async () => {
     const { data, error } = await supabase
@@ -16,11 +19,14 @@ export default function AuthenticatedApp() {
       .select('id, title, created_at, completion_data, start_date, end_date')
       .eq('user_id', user.id)
     if (error) {
+      alert.error(`Error: ${error.message}`)
       console.warn(error);
     } else {
       setHabits(data);
     }
   }
+
+  console.log(habits)
 
   useEffect(() => {
     loadHabits();
@@ -28,9 +34,7 @@ export default function AuthenticatedApp() {
 
   // function to handle real time updates
   const handleHabitUpdates = (payload: any) => {
-    console.log('handling habit updates...')
     const event = payload.eventType;
-    console.log(event)
     if (event === "INSERT") {
       const newHabit = payload.new;
       setHabits((prev) => {
@@ -46,11 +50,8 @@ export default function AuthenticatedApp() {
       })
     }
     if (event === "UPDATE") {
-      console.log('UPDATING...')
       const habitToUpdate = payload.old;
-      console.log(habitToUpdate)
       const updatedHabit = payload.new;
-      console.log(updatedHabit)
       setHabits((prev) => {
         return prev.map(habit => (habit.id === habitToUpdate.id ? updatedHabit : habit));
       })

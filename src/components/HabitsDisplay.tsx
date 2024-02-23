@@ -1,6 +1,8 @@
 import Habit from "./Habit"
 
 export default function HabitsDisplay({ habits, setHabits }: any) {
+  habits.sort((a, b) => a.id - b.id);
+  
   return (
     <ol>
       {habits.map((habit: any) => {

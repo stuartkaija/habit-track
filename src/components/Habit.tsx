@@ -10,7 +10,7 @@ import DeleteModal from './DeleteModal';
 export default function Habit({ id, title, startDate, endDate, createdAt, completionData }: any) {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
-  
+
   const { user } = useAuth();
   const alert = useAlert();
 
@@ -43,10 +43,11 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
 
     const { error } = await supabase
       .from('habits')
-      .upsert({ id: id, user_id: user?.id, completion_data: updatedData })
+      .update({ completion_data: updatedData })
+      .eq('id', id)
 
     if (error) {
-      console.warn(error);
+      alert.error(`Error: ${error.message}`)
     }
   }
 
@@ -79,12 +80,10 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
             handleOpenModal={handleOpenDeleteModal}
             handleDeleteHabit={handleDeleteHabit}
           />
-          <button onClick={() => alert.success("SUCCESS!")}>Display Alert</button>
         </div>
       </div>
 
       <div className='lg:flex'>
-
 
         <div className='flex-grow-1 m-1 p-1 border-b border-indigo-200 lg:border-0'>
           <h3>Stats</h3>

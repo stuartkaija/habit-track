@@ -63,9 +63,7 @@ export default function AddHabitModal({
       })
 
     if (error) {
-      alert.error('Sorry, unable to add habit')
-      console.warn(error)
-      return; // TODO get rid of this? if there's an error, we return, meaning we don't reset the habit data and don't close the modal - does that make sense to do?
+      alert.error(`Sorry, unable to add habit: ${error.message}`)
     } else {
       alert.success('Successfully added habit')
     }
