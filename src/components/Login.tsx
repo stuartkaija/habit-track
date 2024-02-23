@@ -57,13 +57,11 @@ export default function Login() {
 
   const handleLoginWithFacebook = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log('hey');
+    console.log('handling login with facebook');
   }
 
   return (
-    // <div className="flex flex-center items-center justify-center h-full">
     <div className="flex flex-col justify-between h-96 w-80 text-black bg-white p-2 rounded-lg">
-      {/* {successAlert && <SuccessAlert/>} */}
       <h2 className="text-2xl font-bold">{hasAnAccount ? 'Login' : 'Sign Up'}</h2>
       <p className="">{hasAnAccount ? 'Sign in with your email via a magic link.' : 'Sign up with your email via a magic link.'}</p>
       <form className="" onSubmit={handleLoginWithOtp}>
@@ -83,7 +81,7 @@ export default function Login() {
         <button
           onClick={handleLoginWithGoogle}
           disabled={loading}
-          className="p-2 mb-2 px-6 bg-slate-200 hover:bg-slate-400 hover:text-white rounded-sm"
+          className={`p-2 mb-2 px-6 hover:bg-slate-400 hover:text-white rounded-sm ${loading ? 'bg-slate-100' : 'bg-slate-200'}`}
         >
           Sign In With Google
         </button>
@@ -102,6 +100,5 @@ export default function Login() {
         <button className="underline" onClick={() => setHasAnAccount((prev) => !prev)}>{hasAnAccount ? 'Sign Up' : 'Login'}</button>
       </div>
     </div>
-    // </div>
   )
 }
