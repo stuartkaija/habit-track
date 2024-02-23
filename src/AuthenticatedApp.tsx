@@ -26,8 +26,6 @@ export default function AuthenticatedApp() {
     }
   }
 
-  console.log(habits)
-
   useEffect(() => {
     loadHabits();
   }, [])
@@ -77,7 +75,9 @@ export default function AuthenticatedApp() {
           habits={habits}
           setHabits={setHabits}
         />
-        <AddHabit />
+        <AddHabit
+          disabled={habits.length >= 5}
+        />
         {!habits.length &&
           <div className="self-center flex flex-col items-center mt-2">
             <img className="w-6 animate-wiggle" src={upArrow} alt="arrow pointing up" />
