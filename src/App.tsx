@@ -5,30 +5,16 @@ import { AuthProvider } from './lib/AuthProvider';
 import { AlertContextProvider } from './lib/AlertContext';
 import Root from './routes/Root';
 import About from './routes/About';
-import Demo from './routes/Demo';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    children: [
-      {
-        path: 'signup',
-        element: <div>sign up</div>
-      },
-      {
-        path: 'login',
-        element: <div>login</div>
-      }
-    ]
+    children: []
   },
   {
     path: 'about',
     element: <About />
-  },
-  {
-    path: 'demo',
-    element: <Demo />
   },
 ])
 

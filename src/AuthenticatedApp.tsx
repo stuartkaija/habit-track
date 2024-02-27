@@ -80,7 +80,7 @@ export default function AuthenticatedApp() {
         />
         {!habits.length &&
           <div className="self-center flex flex-col items-center mt-2">
-            <img className="w-6 animate-wiggle" src={upArrow} alt="arrow pointing up" />
+            <img className="w-6 animate-wiggle" src={upArrow} alt="arrow icon" />
             <p className="m-4 font-bold">start here!</p>
           </div>
         }
