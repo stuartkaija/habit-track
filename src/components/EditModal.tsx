@@ -108,8 +108,8 @@ export default function EditModal({
         <p className={`${dateError ? 'visible' : 'invisible'} text-xs text-red-500`}>End Date must be after Start Date</p>
       </form>
       <DialogActions>
-        <button className='m-2 p-2 w-2/3 rounded bg-yellow-200 hover:bg-yellow-300' onClick={handleEditHabit}>Edit</button>
-        <button className='m-2 p-2 w-1/3 rounded bg-slate-200 hover:bg-slate-300' onClick={handleOpenModal}>Cancel</button>
+        <button className='m-2 px-3 py-1 w-2/3 rounded-sm border border-slate-500 hover:bg-amber-500 hover:text-white transition-colors' onClick={handleEditHabit}>Edit</button>
+        <button className='m-2 px-3 py-1 w-1/3 rounded-sm border border-slate-500 hover:bg-slate-400 hover:text-white transition-colors' onClick={handleOpenModal}>Cancel</button>
       </DialogActions>
     </Dialog>
   )

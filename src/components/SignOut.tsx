@@ -18,7 +18,7 @@ export default function SignOut() {
   }
   return (
     <button
-      className="border border-slate-800 rounded-sm hover:bg-slate-400 hover:text-slate-50 m-1 px-3 py-1 w-24 md:w-36 text-black transition-colors"
+      className="border border-slate-800 rounded-sm hover:bg-slate-400 hover:text-white m-1 px-3 py-1 w-24 md:w-36 text-black transition-colors"
       onClick={handleLogout}
     >
       Sign Out
