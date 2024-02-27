@@ -1,11 +1,13 @@
-import { useState, useMemo } from 'react';
-import { format, isFirstDayOfMonth, isSameDay, isWithinInterval, getMonth } from 'date-fns';
+import { useState, useMemo, useCallback } from 'react';
+import { format, isFirstDayOfMonth, isSameDay, isWithinInterval, getMonth, getWeek } from 'date-fns';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../lib/AuthProvider';
 import { useAlert } from '../lib/AlertContext';
 import Day from './Day';
 import EditModal from './EditModal';
 import DeleteModal from './DeleteModal';
+import HabitStats from './HabitStats';
+import { calculateDaysComplete, calculateWeeklyAverage } from '../utils/habitStatHelpers';
 
 export default function Habit({ id, title, startDate, endDate, createdAt, completionData }: any) {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
@@ -17,6 +19,17 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
   const memoizedCompletionData = useMemo(() => {
     return completionData
   }, [completionData])
+
+  const daysComplete = useMemo(() => {
+    return calculateDaysComplete(completionData);
+  }, [completionData])
+
+  const weeklyAverage = useMemo(() => {
+    return calculateWeeklyAverage(startDate, daysComplete);    
+  }, [daysComplete])
+
+  // console.log(daysComplete)
+  // console.log(weeklyAverage)
 
   // delete habit
   const handleDeleteHabit = async () => {
@@ -84,19 +97,13 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
       </div>
 
       <div className='lg:flex'>
-
-        <div className='flex-grow-1 m-1 p-1 border-b border-indigo-200 lg:border-0'>
-          <h3>Stats</h3>
-          <ul>
-            <li>Days Completed</li>
-            <li>Frequency</li>
-            <li>Weekly Average</li>
-            <li>Most common day</li>
-          </ul>
-        </div>
+        <HabitStats
+          daysComplete={daysComplete}
+          weeklyAverage={weeklyAverage}
+        />
 
         <div className='flex-grow justify-center m-1 rounded-md p-4 flex'>
-          <div className='md:w-1/12 grid grid-rows-7 justify-items-end mr-2'>
+          <div className='md:w-1/12 my-4 grid grid-rows-7 justify-items-end mr-2'>
             <p className='row-start-2 text-xs'>Mon</p>
             <p className='row-start-4 text-xs'>Wed</p>
             <p className='row-start-6 text-xs'>Fri</p>
