@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { supabase } from "./supabaseClient";
 import { useAuth } from "./lib/AuthProvider";
 import { useAlert } from "./lib/AlertContext";
-import upArrow from './assets/icons8-arrow-50.png'
+import upArrow from './assets/icons/icons8-arrow-50.png'
 import Nav from "./components/Nav";
 import AddHabit from "./components/AddHabit";
 import HabitsDisplay from "./components/HabitsDisplay";
