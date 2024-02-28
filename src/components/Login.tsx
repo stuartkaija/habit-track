@@ -81,14 +81,14 @@ export default function Login() {
         <button
           onClick={handleLoginWithGoogle}
           disabled={loading}
-          className={`px-3 py-2 mb-2 w-full rounded-sm border border-slate-800 hover:bg-slate-500 hover:text-white transition-colors ${loading ? 'bg-slate-100' : ''}`}
+          className={`px-3 py-2 mb-2 w-full rounded-sm border border-slate-800 hover:bg-slate-400 hover:text-white transition-colors ${loading ? 'bg-slate-100 hover:bg-slate-100 hover:text-black' : ''}`}
         >
           Sign In With Google
         </button>
         <button
           onClick={handleLoginWithFacebook}
           disabled={loading}
-          className={`px-3 py-2 mb-2 w-full rounded-sm border border-slate-800 hover:bg-slate-500 hover:text-white transition-colors ${loading ? 'bg-slate-100' : ''}`}
+          className={`px-3 py-2 mb-2 w-full rounded-sm border border-slate-800 hover:bg-slate-400 hover:text-white transition-colors ${loading ? 'bg-slate-100 hover:bg-slate-100 hover:text-black' : ''}`}
         >
           Sign In With Facebook
         </button>

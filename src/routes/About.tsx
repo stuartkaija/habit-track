@@ -4,16 +4,20 @@ import addHabitModalImg from '../assets/images/add-habit-modal.png';
 import habitCalendarImg from '../assets/images/habit-calendar.png';
 import habitLegend from '../assets/images/habit-legend.png'
 import habitComplete from '../assets/images/habits-complete.png'
+import arrow from '../assets/icons/icons8-arrow-50.png'
 
 export default function About() {
   return (
     <div className="p-4 space-y-4">
-      <NavLink to='/'>Back</NavLink>
+      <NavLink className='flex w-20' to='/'>
+        <img className="-rotate-90 w-6 mr-2" src={arrow} alt="arrow icon" />
+        <p>back</p>
+      </NavLink>
       <h2 className="mt-4 text-2xl lg:text-4xl font-bold text-blue-700">About</h2>
       <p className="">
-        I built this application so as to create an easy visual tracking system for habit completion on a large time scale, i.e. one year. To see the sourcecode, checkout the <a className="underline" href="https://www.github.com/stuartkaija" target="_blank" rel="noopener noreferrer">GitHub repository</a>.
+        I built this application so as to create an easy visual tracking system for habit completion on a large time scale, i.e. one year. To see the sourcecode, checkout the <a className="underline" href="https://www.github.com/stuartkaija" target="_blank" rel="noopener noreferrer">GitHub repository</a>. If you have any questions or comments, you can email them to <a className="underline" href="mailto:habittrack91@gmail.com" target="_blank" rel="noopener noreferrer">habittrack91@gmail.com</a>.
       </p>
-      <h3 className="text-xl lg:text-2xl font-semibold text-blue-700">How To Use</h3>
+      <h3 className="text-xl lg:text-2xl font-semibold border-t border-slate-200 pt-2 text-blue-700">How To Use</h3>
       <ol className="flex flex-col px-2 md:px-6 lg:px-12 space-y-6 list-decimal">
         <li>
           <div className="flex flex-col md:flex-row md:items-center">
@@ -29,7 +33,7 @@ export default function About() {
         </li>
         <li>
           <div className="flex flex-col">
-            <p className="md:px-6">This will generate an interactive calendar component in the main dashboard.</p>
+            <p className="md:px-6">This will generate an interactive habit calendar component in the main dashboard. Habits can be updated or deleted via the <span className="font-semibold italic">Edit</span> and <span className="font-semibold italic">Delete</span> buttons respectively.</p>
             <img className="w-full md:w-2/3 lg:w-1/2 self-center" src={habitCalendarImg} alt="interactive habit calendar" />
           </div>
         </li>
@@ -46,7 +50,10 @@ export default function About() {
           </div>
         </li>
       </ol>
-      <NavLink to='/'>Back</NavLink>
+      <NavLink className='flex w-20' to='/'>
+        <img className="-rotate-90 w-6 mr-2" src={arrow} alt="arrow icon" />
+        <p>back</p>
+      </NavLink>
     </div>
   )
 }
