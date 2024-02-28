@@ -25,7 +25,7 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
   }, [completionData])
 
   const weeklyAverage = useMemo(() => {
-    return calculateWeeklyAverage(startDate, daysComplete);    
+    return calculateWeeklyAverage(startDate, daysComplete);
   }, [daysComplete])
 
   // console.log(daysComplete)
@@ -103,14 +103,22 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
         />
 
         <div className='flex-grow justify-center m-1 rounded-md p-4 flex'>
-          <div className='md:w-1/12 my-4 grid grid-rows-7 justify-items-end mr-2'>
-            <p className='row-start-2 text-xs'>Mon</p>
-            <p className='row-start-4 text-xs'>Wed</p>
-            <p className='row-start-6 text-xs'>Fri</p>
+          <div className=''>
+            <div className='mr-2'>
+              <div className='my-4 items-center grid grid-rows-7'>
+                <p className='row-start-1 text-xs invisible'>Sun</p>
+                <p className='row-start-2 text-xs'>Mon</p>
+                <p className='row-start-3 text-xs invisible'>Tue</p>
+                <p className='row-start-4 text-xs'>Wed</p>
+                <p className='row-start-5 text-xs invisible'>Thu</p>
+                <p className='row-start-6 text-xs'>Fri</p>
+                <p className='row-start-7 text-xs invisible'>Sat</p>
+              </div>
+            </div>
           </div>
 
           <div className='overflow-x-auto'>
-            <div className='grid grid-cols-53 gap-1 w-max'>
+            <div className='grid grid-cols-53 gap-1 w-max pl-1'>
               {completionData && completionData.map((week: [], index: number) => {
                 // this allows us to find the first week of each month so as to place the month names correctly
                 let isFirstWeek = false;
