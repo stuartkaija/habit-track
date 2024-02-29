@@ -1,7 +1,10 @@
 import Habit from "./Habit"
 
 export default function HabitsDisplay({ habits, setHabits }: any) {
-  habits.sort((a, b) => a.id - b.id);
+  habits.sort((a, b) => {
+    console.log(a)
+    return a.id - b.id
+  });
   
   return (
     <ol>
@@ -10,7 +13,7 @@ export default function HabitsDisplay({ habits, setHabits }: any) {
           <li key={habit.id} className="">
             <Habit
               id={habit.id}
-              title={habit.title}
+              name={habit.name}
               startDate={habit.start_date}
               endDate={habit.end_date}
               completionData={habit.completion_data}

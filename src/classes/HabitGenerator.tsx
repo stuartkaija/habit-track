@@ -1,9 +1,10 @@
 import { getDay, getWeek, getYear, getDaysInYear, getWeekOfMonth, getMonth } from 'date-fns'
+import { CompletionDatum } from '../interfaces/habits';
 
 class HabitGenerator {
-  generateHabitData(): HabitData[][] {
-    const habitData: HabitData[][] = [];
-    let currentWeek: HabitData[] = [];
+  generateHabitData(): CompletionDatum[][] {
+    const habitData: CompletionDatum[][] = [];
+    let currentWeek: CompletionDatum[] = [];
 
     const currentDate = new Date();
     const currentYear = getYear(currentDate);
@@ -53,15 +54,6 @@ class HabitGenerator {
 
     return habitData;
   }
-}
-
-interface HabitData {
-  date: Date | null;
-  habitComplete: boolean;
-  dayOfWeek: number;
-  weekOfMonth: number | null;
-  weekOfYear: number;
-  month: number | null;
 }
 
 export default HabitGenerator;

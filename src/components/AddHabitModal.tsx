@@ -56,7 +56,7 @@ export default function AddHabitModal({
       .from('habits')
       .insert({
         user_id: user?.id,
-        title: habitName,
+        name: habitName,
         start_date: startDate,
         end_date: endDate,
         completion_data: newHabitData

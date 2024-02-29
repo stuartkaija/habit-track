@@ -1,5 +1,5 @@
-import { useState, useMemo, useCallback } from 'react';
-import { format, isFirstDayOfMonth, isSameDay, isWithinInterval, getMonth, getWeek } from 'date-fns';
+import { useState, useMemo } from 'react';
+import { format, isFirstDayOfMonth, isSameDay, isWithinInterval, getMonth } from 'date-fns';
 import { supabase } from '../supabaseClient';
 import { useAuth } from '../lib/AuthProvider';
 import { useAlert } from '../lib/AlertContext';
@@ -9,7 +9,7 @@ import DeleteModal from './DeleteModal';
 import HabitStats from './HabitStats';
 import { calculateDaysComplete, calculateWeeklyAverage } from '../utils/habitStatHelpers';
 
-export default function Habit({ id, title, startDate, endDate, createdAt, completionData }: any) {
+export default function Habit({ id, name, startDate, endDate, createdAt, completionData }: any) {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
@@ -75,11 +75,11 @@ export default function Habit({ id, title, startDate, endDate, createdAt, comple
   return (
     <div className='flex flex-col m-2 p-4 rounded-lg border border-slate-400 hover:border-slate-500'>
       <div className='flex-grow-1 flex justify-between items-center m-1 border-b border-indigo-200'>
-        <h2 className='text-slate-800 text-md sm:text-lg md:text-2xl font-semibold m-2'>{title}</h2>
+        <h2 className='text-slate-800 text-md sm:text-lg md:text-2xl font-semibold m-2'>{name}</h2>
         <div className='w-1/2 sm:w-auto'>
           <button onClick={handleOpenEditModal} className='m-1 px-3 py-1 w-full sm:w-24 rounded-sm border border-slate-800 hover:bg-amber-500 hover:text-white transition-colors'>Edit</button>
           <EditModal
-            name={title}
+            name={name}
             startDate={startDate}
             endDate={endDate}
             modalOpen={editModalOpen}

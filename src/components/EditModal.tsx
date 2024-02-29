@@ -46,7 +46,7 @@ export default function EditModal({
     const { error } = await supabase
       .from('habits')
       .update({
-        title: habitName,
+        name: habitName,
         start_date: newStartDate,
         end_date: newEndDate,
         completion_data: completionData
