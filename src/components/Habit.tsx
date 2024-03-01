@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
-import { format, isFirstDayOfMonth, isSameDay, isWithinInterval, getMonth } from 'date-fns';
+import { format, isFirstDayOfMonth, isSameDay, isWithinInterval } from 'date-fns';
+import { Tables } from '../../types/supabase';
+import { CompletionDatum } from '../interfaces/habits';
 import { supabase } from '../supabaseClient';
-import { useAuth } from '../lib/AuthProvider';
 import { useAlert } from '../lib/AlertContext';
 import Day from './Day';
 import EditModal from './EditModal';
@@ -9,27 +10,30 @@ import DeleteModal from './DeleteModal';
 import HabitStats from './HabitStats';
 import { calculateDaysComplete, calculateWeeklyAverage } from '../utils/habitStatHelpers';
 
-export default function Habit({ id, name, startDate, endDate, createdAt, completionData }: any) {
+type HabitType = Omit<Tables<'habits'>, 'user_id'>;
+interface HabitProps extends HabitType { };
+
+export default function Habit({
+  id, name, start_date, end_date, created_at, completion_data
+}:
+  HabitProps
+) {
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
-  const { user } = useAuth();
   const alert = useAlert();
 
   const memoizedCompletionData = useMemo(() => {
-    return completionData
-  }, [completionData])
+    return completion_data
+  }, [completion_data])
 
-  const daysComplete = useMemo(() => {
-    return calculateDaysComplete(completionData);
-  }, [completionData])
+  const daysComplete: number = useMemo(
+    () => completion_data ? calculateDaysComplete(completion_data) : 0, [completion_data]
+  );
 
-  const weeklyAverage = useMemo(() => {
-    return calculateWeeklyAverage(startDate, daysComplete);
-  }, [daysComplete])
-
-  // console.log(daysComplete)
-  // console.log(weeklyAverage)
+  const weeklyAverage: number = useMemo(
+    () => completion_data ? calculateWeeklyAverage(start_date, daysComplete) : 0, [start_date, daysComplete]
+  );
 
   // delete habit
   const handleDeleteHabit = async () => {
@@ -80,12 +84,12 @@ export default function Habit({ id, name, startDate, endDate, createdAt, complet
           <button onClick={handleOpenEditModal} className='m-1 px-3 py-1 w-full sm:w-24 rounded-sm border border-slate-800 hover:bg-amber-500 hover:text-white transition-colors'>Edit</button>
           <EditModal
             name={name}
-            startDate={startDate}
-            endDate={endDate}
+            startDate={start_date}
+            endDate={end_date}
             modalOpen={editModalOpen}
             handleOpenModal={handleOpenEditModal}
             habitId={id}
-            completionData={completionData}
+            completionData={completion_data}
           />
           <button onClick={handleOpenDeleteModal} className='m-1 px-3 py-1 w-full sm:w-24 rounded-sm border border-slate-800 hover:bg-red-500 hover:text-white transition-colors '>Delete</button>
           <DeleteModal
@@ -119,29 +123,28 @@ export default function Habit({ id, name, startDate, endDate, createdAt, complet
 
           <div className='overflow-x-auto'>
             <div className='grid grid-cols-53 gap-1 w-max pl-1'>
-              {completionData && completionData.map((week: [], index: number) => {
+              {memoizedCompletionData && memoizedCompletionData.map((week: CompletionDatum[], index: number) => {
                 // this allows us to find the first week of each month so as to place the month names correctly
                 let isFirstWeek = false;
-                let month = null;
-                const firstDayOfMonth = week.find(day => isFirstDayOfMonth(day.date));
+                const firstDayOfMonth = week.find(day => day.date && isFirstDayOfMonth(day.date));
 
-                if (firstDayOfMonth) {
+                if (firstDayOfMonth && firstDayOfMonth.date) {
                   isFirstWeek = true;
-                  month = getMonth(firstDayOfMonth.date)
                 }
 
                 return (
                   <div key={index} className='relative my-4 items-center grid grid-rows-7 gap-1'>
-                    {isFirstWeek &&
-                      <span className='absolute -top-4 z-40 text-xs '>{format(firstDayOfMonth?.date, 'MMM')}</span>
+                    {isFirstWeek && firstDayOfMonth &&
+                      <span className='absolute -top-4 z-40 text-xs '>{firstDayOfMonth.date && format(firstDayOfMonth.date, 'MMM')}</span>
                     }
+
                     {week.map(({ date, habitComplete, dayOfWeek, weekOfYear }: any, cellIndex) => {
                       return (
                         <Day
                           key={cellIndex}
                           date={date}
-                          createdToday={isSameDay(createdAt, date)}
-                          isWithinTimeframe={isWithinInterval(date, { start: startDate, end: endDate })}
+                          createdToday={isSameDay(created_at, date)}
+                          isWithinTimeframe={isWithinInterval(date, { start: start_date, end: end_date })}
                           day={dayOfWeek}
                           weekOfYear={weekOfYear}
                           completionStatus={habitComplete}

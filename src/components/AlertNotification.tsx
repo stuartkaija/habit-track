@@ -10,7 +10,7 @@ export default function AlertNotification({
   type: string,
   id: number
 }) {
-  const { icon, iconClass } = alertTypes[type]
+  const { iconClass } = alertTypes[type as keyof typeof alertTypes]
 
   const [dismissed, setDismissed] = useState<boolean>(false);
   const timer = useRef<null | ReturnType<(typeof setTimeout)>>(null);

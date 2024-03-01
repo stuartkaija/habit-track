@@ -1,3 +1,5 @@
+import { CompletionDatum } from "../src/interfaces/habits"
+
 export type Json =
   | string
   | number
@@ -11,30 +13,30 @@ export type Database = {
     Tables: {
       habits: {
         Row: {
-          completion_data: Json[] | null
+          completion_data: CompletionDatum[][]
           created_at: string
-          end_date: string | null
+          end_date: string
           id: number
-          name: string | null
-          start_date: string | null
+          name: string
+          start_date: string
           user_id: string
         }
         Insert: {
-          completion_data?: Json[] | null
+          completion_data: CompletionDatum[][]
           created_at?: string
-          end_date?: string | null
+          end_date: string
           id?: number
-          name?: string | null
-          start_date?: string | null
+          name: string
+          start_date: string
           user_id: string
         }
         Update: {
-          completion_data?: Json[] | null
+          completion_data?: CompletionDatum[][]
           created_at?: string
-          end_date?: string | null
+          end_date?: string
           id?: number
-          name?: string | null
-          start_date?: string | null
+          name?: string
+          start_date?: string
           user_id?: string
         }
         Relationships: [

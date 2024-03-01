@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Tables } from '../types/supabase'
 import { supabase } from "./supabaseClient";
 import { useAuth } from "./lib/AuthProvider";
 import { useAlert } from "./lib/AlertContext";
@@ -8,16 +9,21 @@ import AddHabit from "./components/AddHabit";
 import HabitsDisplay from "./components/HabitsDisplay";
 
 export default function AuthenticatedApp() {
-  const [habits, setHabits] = useState<any[]>([]);
+  const [habits, setHabits] = useState<Tables<'habits'>[]>([]);
 
-  const { user } = useAuth();
+  const auth = useAuth();
+
+  if (!auth) {
+    return <p>Loading...</p>
+  }
+
   const alert = useAlert();
 
   const loadHabits = async () => {
     const { data, error } = await supabase
       .from('habits')
-      .select('id, name, created_at, completion_data, start_date, end_date')
-      .eq('user_id', user.id)
+      .select('*')
+      .eq('user_id', auth?.user.id)
     if (error) {
       alert.error(`Error: ${error.message}`)
       console.warn(error);
@@ -73,7 +79,6 @@ export default function AuthenticatedApp() {
       <div className="flex flex-col p-2">
         <HabitsDisplay
           habits={habits}
-          setHabits={setHabits}
         />
         <AddHabit
           disabled={habits.length >= 5}

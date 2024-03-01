@@ -20,12 +20,12 @@ export default function AddHabitModal({
   const lastDayOfYear = endOfYear(new Date());
 
   const [habitName, setHabitName] = useState<string>('');
-  const [startDate, setStartDate] = useState<Date | string | null>(firstDayOfYear);
-  const [endDate, setEndDate] = useState<Date | string | null>(lastDayOfYear);
+  const [startDate, setStartDate] = useState<Date>(firstDayOfYear);
+  const [endDate, setEndDate] = useState<Date>(lastDayOfYear);
   const [nameError, setNameError] = useState<boolean>(false);
   const [dateError, setDateError] = useState<boolean>(false);
 
-  const { user } = useAuth();
+  const auth = useAuth();
   const alert = useAlert();
 
   const resetAllState = () => {
@@ -55,7 +55,7 @@ export default function AddHabitModal({
     const { error } = await supabase
       .from('habits')
       .insert({
-        user_id: user?.id,
+        user_id: auth?.user.id,
         name: habitName,
         start_date: startDate,
         end_date: endDate,
@@ -101,21 +101,21 @@ export default function AddHabitModal({
         <DatePicker
           label='Start Date'
           value={startDate}
-          minDate='January 1, 2024'
-          maxDate='December 31, 2024'
+          minDate={firstDayOfYear}
+          maxDate={lastDayOfYear}
           onChange={(value) => {
             setDateError(false);
-            setStartDate(value);
+            setStartDate(value!);
           }}
         />
         <DatePicker
           label='End Date'
           value={endDate}
-          minDate='January 1, 2024'
-          maxDate='December 31, 2024'
+          minDate={firstDayOfYear}
+          maxDate={lastDayOfYear}
           onChange={(value) => {
             setDateError(false);
-            setEndDate(value);
+            setEndDate(value!);
           }}
         />
         <p className={`${dateError ? 'visible' : 'invisible'} text-xs text-red-500`}>End Date must be after Start Date</p>

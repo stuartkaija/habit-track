@@ -6,7 +6,3 @@ export interface CompletionDatum {
   weekOfYear: number;
   month: number | null;
 }
-
-export interface HabitData {
-
-}

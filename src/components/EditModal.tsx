@@ -4,6 +4,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { isBefore } from 'date-fns';
 import { supabase } from '../supabaseClient';
 import { useAlert } from '../lib/AlertContext';
+import { CompletionDatum } from '../interfaces/habits';
 
 export default function EditModal({
   name,
@@ -20,7 +21,7 @@ export default function EditModal({
   modalOpen: boolean
   handleOpenModal: any
   habitId: number,
-  completionData: any
+  completionData: CompletionDatum[][]
 }) {
   const [habitName, setHabitName] = useState<string>(name);
   const [newStartDate, setNewStartDate] = useState<string | null>(startDate);
