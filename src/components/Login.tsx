@@ -73,7 +73,7 @@ export default function Login() {
           onChange={handleEmailInput}
         />
         <p className={`text-red-500 mb-2 font-bold text-sm ${error ? 'visible' : 'invisible'}`}>please enter a valid email</p>
-        <button className={`m-1 px-3 py-2 w-full rounded-sm border border-slate-800 transition-colors ${loading ? 'bg-indigo-100 hover:bg-indigo-100' : ' hover:bg-indigo-500 hover:text-white'}`} disabled={loading}>
+        <button className={`my-1 px-3 py-2 w-full rounded-sm border border-slate-800 transition-colors ${loading ? 'bg-indigo-100 hover:bg-indigo-100' : ' hover:bg-indigo-500 hover:text-white'}`} disabled={loading}>
           {loading ? 'Loading' : 'Send magic link'}
         </button>
       </form>
@@ -81,14 +81,14 @@ export default function Login() {
         <button
           onClick={handleLoginWithGoogle}
           disabled={loading}
-          className={`px-3 py-2 mb-2 w-full rounded-sm border border-slate-800 hover:bg-slate-400 hover:text-white transition-colors ${loading ? 'bg-slate-100 hover:bg-slate-100 hover:text-black' : ''}`}
+          className={`px-3 py-2 mb-2 w-full rounded-sm border transition-colors ${loading ? buttonStyles.disabledOrLoading : buttonStyles.enabled}`}
         >
           Sign In With Google
         </button>
         <button
           onClick={handleLoginWithFacebook}
-          disabled={loading}
-          className={`px-3 py-2 mb-2 w-full rounded-sm border border-slate-800 hover:bg-slate-400 hover:text-white transition-colors ${loading ? 'bg-slate-100 hover:bg-slate-100 hover:text-black' : ''}`}
+          disabled={true}
+          className={`px-3 py-2 mb-2 w-full rounded-sm border transition-colors ${loading ? buttonStyles.disabledOrLoading : buttonStyles.enabled}`}
         >
           Sign In With Facebook
         </button>
@@ -101,4 +101,9 @@ export default function Login() {
       </div>
     </div>
   )
+}
+
+const buttonStyles = {
+  disabledOrLoading: 'bg-slate-100 hover:bg-slate-100 hover:text-black border-slate-300',
+  enabled: 'hover:bg-slate-400 hover:text-white border-slate-800'
 }
