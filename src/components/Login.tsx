@@ -85,13 +85,13 @@ export default function Login() {
         >
           Sign In With Google
         </button>
-        <button
+        {/* <button
           onClick={handleLoginWithFacebook}
           disabled={true}
           className={`px-3 py-2 mb-2 w-full rounded-sm border transition-colors ${loading ? buttonStyles.disabledOrLoading : buttonStyles.enabled}`}
         >
           Sign In With Facebook
-        </button>
+        </button> */}
       </div>
       <div className="flex justify-between">
         <p>

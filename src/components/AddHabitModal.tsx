@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import { isBefore, startOfYear, endOfYear } from 'date-fns';
+import { isBefore, startOfYear, endOfYear, startOfDay } from 'date-fns';
 import { useAuth } from '../lib/AuthProvider';
 import { useAlert } from '../lib/AlertContext';
 import { supabase } from '../supabaseClient';
@@ -17,10 +17,11 @@ export default function AddHabitModal({
   handleOpenModal: any
 }) {
   const firstDayOfYear = startOfYear(new Date());
+  const today = startOfDay(new Date());
   const lastDayOfYear = endOfYear(new Date());
 
   const [habitName, setHabitName] = useState<string>('');
-  const [startDate, setStartDate] = useState<Date>(firstDayOfYear);
+  const [startDate, setStartDate] = useState<Date>(today);
   const [endDate, setEndDate] = useState<Date>(lastDayOfYear);
   const [nameError, setNameError] = useState<boolean>(false);
   const [dateError, setDateError] = useState<boolean>(false);
@@ -30,7 +31,7 @@ export default function AddHabitModal({
 
   const resetAllState = () => {
     setHabitName('');
-    setStartDate(firstDayOfYear);
+    setStartDate(today);
     setEndDate(lastDayOfYear);
     setNameError(false);
     setDateError(false);
@@ -120,8 +121,18 @@ export default function AddHabitModal({
         />
         <p className={`${dateError ? 'visible' : 'invisible'} text-xs text-red-500`}>End Date must be after Start Date</p>
         <DialogActions>
-          <button className='m-2 p-2 w-2/3 rounded-sm border border-slate-800 hover:bg-green-500 hover:text-white transition-colors' type='submit'>Add</button>
-          <button className='m-2 p-2 w-1/3 rounded-sm border border-slate-800 hover:bg-slate-400 hover:text-white transition-colors' type='reset' onClick={handleOpenModal}>Cancel</button>
+          <button
+            className='m-2 p-2 w-2/3 rounded-sm border border-slate-800 hover:bg-green-500 hover:text-white transition-colors'
+            type='submit'
+          >Add</button>
+          <button
+            className='m-2 p-2 w-1/3 rounded-sm border border-slate-800 hover:bg-slate-400 hover:text-white transition-colors'
+            type='reset'
+            onClick={() => {
+              resetAllState();
+              handleOpenModal();
+            }}
+          >Cancel</button>
         </DialogActions>
       </form>
     </Dialog>
