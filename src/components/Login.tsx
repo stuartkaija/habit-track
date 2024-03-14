@@ -55,10 +55,10 @@ export default function Login() {
     setLoading(false);
   }
 
-  const handleLoginWithFacebook = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    console.log('handling login with facebook');
-  }
+  // const handleLoginWithFacebook = async (event: React.SyntheticEvent) => {
+  //   event.preventDefault();
+  //   console.log('handling login with facebook');
+  // }
 
   return (
     <div className="flex flex-col justify-between h-96 w-80 text-black bg-white p-2 rounded-lg">
